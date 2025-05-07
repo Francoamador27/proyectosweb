@@ -1,12 +1,29 @@
-# React + Vite
+# ProyectosWeb - React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este proyecto está desarrollado con **React** y **Vite**, optimizado para velocidad, organización y escalabilidad. Se utiliza un enfoque moderno con componentes reutilizables, diseño responsive y buenas prácticas de desarrollo.
 
-Currently, two official plugins are available:
+## 🚀 Tecnologías utilizadas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- ⚛️ [React](https://reactjs.org/) – Librería para interfaces modernas
+- ⚡ [Vite](https://vitejs.dev/) – Empaquetador ultra rápido
+- 🎨 [Tailwind CSS](https://tailwindcss.com/) – Utilidades para estilos modernos
+- 💡 [Lucide React](https://lucide.dev/) – Íconos elegantes para interfaces limpias
 
-## Expanding the ESLint configuration
+## ✅ Características del proyecto
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Tipos de páginas ofrecidas**: Landing Page, Sitio Institucional, Tienda Online
+- **Estilos oscuros** con acentos en naranja
+- **Componentes optimizados para SEO**
+- **Responsive completo** (desktop + mobile)
+
+## ✍️ Personalización
+
+Podés modificar los textos, íconos e imágenes directamente desde `src/components/TiposDePaginas.jsx` y otras secciones según tus necesidades.
+
+
+## 🛠️ Instalación y uso
+
+1. Clonar el repositorio:
+```bash
+git clone https://github.com/tuusuario/tu-proyecto.git
+cd tu-proyecto
