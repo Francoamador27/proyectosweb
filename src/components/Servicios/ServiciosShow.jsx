@@ -3,7 +3,6 @@ import { Link, useParams } from "react-router-dom";
 import clienteAxios from "../../config/axios";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import Hyperspeed from "@/components/hyperspeed";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import SEOHead from "../Head/Head";
@@ -196,10 +195,6 @@ export default function ServiciosShow() {
             <div className="w-full max-w-full overflow-hidden">
               <div className="bg-slate-50 p-2 sm:p-4 rounded-3xl md:rounded-[2.5rem] border border-slate-100 shadow-inner overflow-hidden w-full max-w-full">
                 <div className="relative bg-black rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl min-h-[400px]">
-                  {/* Hyperspeed Background */}
-                  <div className="absolute inset-0 w-full h-full -z-10">
-                    <Hyperspeed />
-                  </div>
                   <Swiper
                     modules={[Navigation, Pagination, Autoplay]}
                     navigation={true}
