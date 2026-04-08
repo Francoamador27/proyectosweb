@@ -66,7 +66,7 @@ const ArchivosList = () => {
   return (
     <div className="p-4">
       <div className="mb-6 flex items-center justify-between gap-4">
-        <h2 className="text-2xl font-semibold">Documentos del paciente</h2>
+        <h2 className="text-2xl font-semibold">Documentos del usuario</h2>
       </div>
 
       {/* Filtros */}
@@ -146,7 +146,7 @@ const ArchivosList = () => {
               <th className="px-4 py-3 text-left">ID</th>
               <th className="px-4 py-3 text-left">Título</th>
               <th className="px-4 py-3 text-left">Descripción</th>
-              <th className="px-4 py-3 text-left">Paciente</th>
+              <th className="px-4 py-3 text-left">usuario</th>
               <th className="px-4 py-3 text-left">Fecha</th>
               <th className="px-4 py-3 text-left">Acciones</th>
             </tr>
@@ -155,7 +155,7 @@ const ArchivosList = () => {
             {documentos.map((d) => {
               const url = d.nomfi_url ?? d.nomfi ?? null;
               const isImg = isImageUrl(url || "");
-              const paciente =
+              const usuario =
                 d.patient_full_name ||
                 (d.patient ? `${d.patient.nompa ?? ""} ${d.patient.apepa ?? ""}`.trim() : "—");
 
@@ -167,7 +167,7 @@ const ArchivosList = () => {
                   <td className="px-4 py-3 max-w-md">
                     <div className="line-clamp-2 text-gray-600">{d.descripcion || "—"}</div>
                   </td>
-                  <td className="px-4 py-3">{paciente || "—"}</td>
+                  <td className="px-4 py-3">{usuario || "—"}</td>
                   <td className="px-4 py-3">
                     {d.fere ? new Date(d.fere).toLocaleDateString() : "—"}
                   </td>

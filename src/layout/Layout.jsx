@@ -14,7 +14,7 @@ const Layout = () => {
     <>
       <ScrollToTop />
       <Header />
-      <main className={isHome ? '' : 'pt-20 lg:pt-24 bg-white'}>
+      <main className={isHome ? '' : 'pt-20 bg-white'}>
         <Outlet />
       </main>
       <Footer />

@@ -1,44 +1,35 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import WhatsappHref from "../utils/WhatsappUrl";
 import useSWR from "swr";
 import clienteAxios from "../config/axios";
 import SEOHead from "./Head/Head";
 import useCont from "../hooks/useCont";
+import { ServicioCard } from "./Cards/ServicioCard";
 
 export default function ServiciosGrid() {
+  const [searchParams] = useSearchParams();
   const [serviciosApi, setServiciosApi] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  // ---- SWR (API dinámica) ----
+  useEffect(() => {
+    const categoriaParam = searchParams.get("categoria");
+    if (categoriaParam) setSelectedCategory(categoriaParam);
+  }, [searchParams]);
+
   const fetcher = (url) => clienteAxios(url).then((res) => res.data);
 
-  const { data: dataCategorias } = useSWR(
-    "/api/servicios-categorias",
-    fetcher,
-    {
-      revalidateOnFocus: false,
-      keepPreviousData: true,
-    }
-  );
+  const { data: dataCategorias } = useSWR("/api/servicios-categorias", fetcher, {
+    revalidateOnFocus: false,
+    keepPreviousData: true,
+  });
 
   const serviciosUrl = useMemo(() => {
-    const params = new URLSearchParams({
-      sort: "position",
-      dir: "asc",
-      per_page: "1000",
-    });
-
-    if (selectedCategory !== "all") {
-      params.set("category", selectedCategory);
-    }
-
-    if (searchQuery.trim()) {
-      params.set("q", searchQuery.trim());
-    }
-
+    const params = new URLSearchParams({ sort: "position", dir: "asc", per_page: "1000" });
+    if (selectedCategory !== "all") params.set("category", selectedCategory);
+    if (searchQuery.trim()) params.set("q", searchQuery.trim());
     return `/api/servicios?${params.toString()}`;
   }, [selectedCategory, searchQuery]);
 
@@ -67,303 +58,369 @@ export default function ServiciosGrid() {
     setServiciosApi(items);
   }, [data]);
 
-  // ---- Fallback si la API no trae nada ----
-  const serviciosFallback = useMemo(
-    () => [
-      {
-        icon: "🏖️",
-        titulo: "Playas Paradisíacas",
-        descripcion:
-          "Descubre las mejores playas del Caribe con arenas blancas y aguas cristalinas.",
-        highlight: "Popular",
-      },
-      {
-        icon: "🏔️",
-        titulo: "Montañas y Aventura",
-        descripcion:
-          "Experiencias en la naturaleza con trekkings, escalada y paisajes increíbles.",
-        highlight: "Aventura",
-      },
-      {
-        icon: "🏛️",
-        titulo: "Tours Culturales",
-        descripcion:
-          "Explora ciudades históricas, museos y sitios arqueológicos fascinantes.",
-        highlight: "Cultura",
-      },
-      {
-        icon: "🌴",
-        titulo: "Escapadas Tropicales",
-        descripcion:
-          "Relájate en destinos exóticos con todo incluido y servicio premium.",
-        highlight: "All Inclusive",
-      },
-      {
-        icon: "🎿",
-        titulo: "Aventuras de Invierno",
-        descripcion:
-          "Ski, snowboard y experiencias únicas en los mejores centros de esquí.",
-        highlight: "Temporada",
-      },
-      {
-        icon: "🚢",
-        titulo: "Cruceros de Lujo",
-        descripcion:
-          "Navega por el mundo conociendo múltiples destinos con máximo confort.",
-        highlight: "Premium",
-      },
-    ],
-    []
-  );
-
-  // ---- Datos finales ----
   const servicios = useMemo(() => {
-    const base = serviciosApi?.length ? serviciosApi : serviciosFallback;
+    const base = serviciosApi?.length ? serviciosApi : [];
     return base.map((s) => ({
-      icon: s.icon ?? "🛠️",
+      icon: s.icon ?? "⚙️",
       titulo: s.titulo ?? s.title ?? "Servicio especializado",
-      descripcion: s.descripcion ?? s.description ?? "",
+      descripcion: s.descripcion ?? s["description"] ?? "",
       highlight: s.highlight ?? s.tagline ?? "",
       slug: s.slug ?? (s.titulo ?? s.title ?? "").toLowerCase().replace(/\s+/g, "-"),
       image: s.image ?? null,
+      price: s.price ?? null,
     }));
-  }, [serviciosApi, serviciosFallback]);
+  }, [serviciosApi]);
 
   const { company } = useCont();
 
-  // ✅ Card para Grid - Diseño de Turismo
-  const ServicioCard = ({ item, idx }) => {
-    return (
-      <div
-        className="group relative h-[450px] rounded-3xl overflow-hidden shadow-2xl transform transition-all duration-700 hover:scale-[1.02] hover:shadow-[0_20px_60px_rgba(220,131,78,0.15)] opacity-0 animate-fadeInUp"
-        style={{ 
-          animationDelay: `${idx * 120}ms`,
-          animationFillMode: 'forwards'
-        }}
-      >
-        {/* Imagen de Fondo */}
-        <div className="absolute inset-0 z-0">
-          {item.image ? (
-            <img
-              src={item.image}
-              alt={item.titulo}
-              className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-              loading="lazy"
-            />
-          ) : (
-            <div className="w-full h-full bg-gradient-to-br from-[#dc834e] via-[#c77542] to-amber-700 flex items-center justify-center">
-              <span className="text-8xl opacity-30">{item.icon}</span>
-            </div>
-          )}
-
-          {/* Overlay con gradiente elegante */}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/95 via-slate-900/40 to-transparent transition-all duration-500 group-hover:from-[#dc834e]/90 group-hover:via-slate-900/60" />
-        </div>
-
-        {/* Badge Superior - Posición Absoluta */}
-        {item.highlight && (
-          <div className="absolute top-6 right-6 z-20">
-            <span className="bg-[#dc834e]/90 backdrop-blur-md text-white text-[11px] font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-lg border border-white/20">
-              {item.highlight}
-            </span>
-          </div>
-        )}
-
-        {/* Contenido - Fijado a la parte inferior */}
-        <div className="relative z-10 h-full flex flex-col justify-end p-8 text-white">
-          {/* Título con fuente elegante */}
-          <h3 className="text-3xl font-black mb-3 tracking-tight transition-transform duration-500 group-hover:-translate-y-1 leading-tight">
-            {item.titulo}
-          </h3>
-
-          {/* Descripción visible siempre */}
-          <p className="text-white/90 text-sm mb-4 leading-relaxed line-clamp-2 transition-all duration-500 group-hover:text-white">
-            {item.descripcion}
-          </p>
-
-          {/* Precio si existe */}
-          {item.price && (
-            <div className="mb-4">
-              <span className="text-2xl font-black text-[#dc834e] bg-white/90 px-4 py-1 rounded-full">
-                ${item.price}
-              </span>
-            </div>
-          )}
-
-          {/* CTA hover */}
-          <div className="flex items-center gap-3 opacity-70 transform transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-2">
-            <span className="text-sm font-bold tracking-tight uppercase text-white">
-              Ver detalles del paquete
-            </span>
-            <div className="w-8 h-8 rounded-full bg-[#dc834e]/80 backdrop-blur-sm border border-white/30 flex items-center justify-center transition-all duration-300 group-hover:bg-[#dc834e]">
-              <svg
-                className="w-4 h-4 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        {/* Link invisible */}
-        <Link
-          to={`/servicios/${item.slug}`}
-          className="absolute inset-0 z-20 cursor-pointer"
-          aria-label={`Ver detalles de ${item.titulo}`}
-        />
-      </div>
-    );
-  };
-
   return (
-    <section className="relative bg-slate-50 py-24 px-6 lg:px-20 overflow-hidden">
+    <section className="relative bg-white py-12 lg:py-16 px-6 lg:px-20 overflow-hidden">
       <SEOHead
         priority="high"
-        title={`RevenantTravel | Paquetes Turísticos`}
-        description="Descubre nuestros paquetes turísticos exclusivos. Experiencias únicas en los mejores destinos del mundo con RevenantTravel."
+        title={`${company?.name ?? "GrupoBits"} | Nuestros Servicios`}
+        description="Soluciones tecnológicas a medida: desarrollo de sistemas, software, hardware y marketing digital."
       />
 
-      {/* Efectos de fondo */}
-      <div className="absolute inset-0 opacity-[0.04]">
-        <div className="absolute top-20 left-10 w-64 h-64 bg-[#dc834e] rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-80 h-80 bg-amber-600 rounded-full blur-3xl"></div>
-      </div>
+      <style>{`
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(20px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeInUp { animation: fadeInUp 0.55s ease-out; }
+
+        .sg-filter-btn-active {
+          background: linear-gradient(135deg, #00d4ff, #0891b2) !important;
+          color: #fff !important;
+          border-color: transparent !important;
+          box-shadow: 0 0 12px rgba(0,212,255,0.25);
+        }
+        .sg-filter-btn {
+          background: #fff;
+          color: #475569;
+          border: 1px solid rgba(8,145,178,0.15);
+          transition: all 0.2s;
+        }
+        .sg-filter-btn:hover:not(.sg-filter-btn-active) {
+          background: #f0f9ff;
+          border-color: rgba(8,145,178,0.3);
+          color: #0891b2;
+        }
+        .sg-search-input:focus {
+          border-color: #00d4ff !important;
+          box-shadow: 0 0 0 3px rgba(0,212,255,0.12) !important;
+          outline: none;
+        }
+      `}</style>
+
+      {/* Glows de fondo muy suaves sobre blanco */}
+      <div
+        className="absolute top-0 right-0 w-96 h-96 rounded-full blur-3xl pointer-events-none"
+        style={{ background: "rgba(0,212,255,0.04)" }}
+      />
+      <div
+        className="absolute bottom-0 left-0 w-80 h-80 rounded-full blur-3xl pointer-events-none"
+        style={{ background: "rgba(59,130,246,0.04)" }}
+      />
 
       <div className="relative z-10 max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 bg-[#dc834e]/10 px-6 py-2.5 rounded-full text-[#dc834e] font-black text-sm mb-6 border border-[#dc834e]/20 shadow-md">
-            <span className="w-2 h-2 bg-[#dc834e] rounded-full animate-ping"></span>
-            EXPERIENCIAS ÚNICAS
+
+        {/* ── Header ── */}
+        <div className="text-center mb-10 lg:mb-14">
+          <div
+            className="inline-flex items-center gap-2 mb-5 px-5 py-2 rounded-full"
+            style={{
+              border: "1px solid rgba(8,145,178,0.25)",
+              background: "rgba(0,212,255,0.05)",
+            }}
+          >
+            <span
+              className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse"
+              style={{ boxShadow: "0 0 6px rgba(0,212,255,0.8)" }}
+            />
+            <span className="text-cyan-600 text-xs font-mono tracking-widest uppercase">
+              {company?.name ?? "GrupoBits"} · Tecnología
+            </span>
           </div>
 
-          <h2 className="text-5xl lg:text-6xl font-black thea-amelia text-slate-900 mb-6 tracking-tight">
-            Nuestros <span className="text-[#dc834e] thea-amelia text-6xl lg:text-6xl">Paquetes Turísticos</span>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-slate-900 mb-4 tracking-tight">
+            Nuestros{" "}
+            <span
+              style={{
+                background: "linear-gradient(90deg, #00d4ff, #3b82f6)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              Servicios
+            </span>
           </h2>
 
-          <p className="text-slate-600 max-w-2xl mx-auto text-xl leading-relaxed font-light">
-            En <strong className="text-[#dc834e]">RevenantTravel</strong> creamos experiencias inolvidables en los destinos más increíbles del mundo.
+          <p className="text-slate-500 mx-auto max-w-2xl text-sm md:text-base leading-relaxed">
+            En <strong className="text-cyan-600">{company?.name ?? "GrupoBits"}</strong> acompañamos
+            a las empresas en su transformación digital con soluciones de desarrollo, software,
+            hardware y marketing.
           </p>
 
-          <div className="mt-10 flex items-center justify-center gap-3">
-            <div className="h-1.5 w-20 rounded-full bg-[#dc834e]"></div>
-            <div className="h-2 w-2 rounded-full bg-[#dc834e]"></div>
-            <div className="h-1.5 w-20 rounded-full bg-[#dc834e]"></div>
-          </div>
-        </div>
-
-        {/* Filtros */}
-        <div className="mb-16">
-          <div className="max-w-2xl mx-auto mb-6">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Buscar paquetes por nombre o descripcion"
-              className="w-full rounded-2xl border border-slate-200 bg-white px-5 py-4 text-sm text-slate-700 shadow-sm focus:border-[#dc834e] focus:ring-2 focus:ring-[#dc834e]/20 transition-all"
+          <div className="mt-6 flex items-center justify-center gap-3">
+            <div
+              className="h-px w-20 rounded-full"
+              style={{ background: "linear-gradient(90deg, transparent, #00d4ff)" }}
+            />
+            <div
+              className="w-2 h-2 rounded-full bg-cyan-400"
+              style={{ boxShadow: "0 0 6px rgba(0,212,255,0.7)" }}
+            />
+            <div
+              className="h-px w-20 rounded-full"
+              style={{ background: "linear-gradient(90deg, #00d4ff, transparent)" }}
             />
           </div>
+        </div>
 
-          <div className="flex flex-wrap justify-center gap-3">
-            <button
-              type="button"
-              onClick={() => setSelectedCategory("all")}
-              className={`px-5 py-2.5 rounded-full text-sm font-bold uppercase tracking-tight border transition-all ${
-                selectedCategory === "all"
-                  ? "bg-[#dc834e] text-white border-[#dc834e] shadow-lg shadow-[#dc834e]/20"
-                  : "bg-white text-slate-700 border-slate-200 hover:border-[#dc834e] hover:text-[#dc834e]"
-              }`}
-            >
-              Todos
-            </button>
-            {categorias.map((cat) => (
-              <button
-                key={cat.id}
-                type="button"
-                onClick={() => setSelectedCategory(String(cat.id))}
-                className={`px-5 py-2.5 rounded-full text-sm font-bold uppercase tracking-tight border transition-all ${
-                  selectedCategory === String(cat.id)
-                    ? "bg-[#dc834e] text-white border-[#dc834e] shadow-lg shadow-[#dc834e]/20"
-                    : "bg-white text-slate-700 border-slate-200 hover:border-[#dc834e] hover:text-[#dc834e]"
-                }`}
+        {/* ── Layout sidebar + grid ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-16">
+
+          {/* Sidebar */}
+          <aside className="lg:col-span-1">
+            <div className="sticky top-6 space-y-4">
+
+              {/* Búsqueda */}
+              <div
+                className="rounded-2xl p-5"
+                style={{
+                  background: "#fff",
+                  border: "1px solid rgba(8,145,178,0.12)",
+                  boxShadow: "0 1px 8px rgba(0,0,0,0.04)",
+                }}
               >
-                {cat.nombre}
-              </button>
-            ))}
-          </div>
+                <div className="flex items-center gap-2 mb-3">
+                  <div
+                    className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
+                    style={{ background: "rgba(0,212,255,0.1)", border: "1px solid rgba(0,212,255,0.2)" }}
+                  >
+                    <svg className="w-3.5 h-3.5 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  </div>
+                  <span className="text-sm font-black text-slate-800 tracking-tight">Buscar</span>
+                </div>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Nombre o descripción..."
+                  className="sg-search-input w-full px-3 py-2.5 rounded-xl text-sm text-slate-700 placeholder-slate-400 transition-all"
+                  style={{
+                    background: "#f8fafc",
+                    border: "1px solid rgba(8,145,178,0.15)",
+                  }}
+                />
+              </div>
+
+              {/* Categorías */}
+              <div
+                className="rounded-2xl p-5"
+                style={{
+                  background: "#fff",
+                  border: "1px solid rgba(8,145,178,0.12)",
+                  boxShadow: "0 1px 8px rgba(0,0,0,0.04)",
+                }}
+              >
+                <div className="flex items-center gap-2 mb-4">
+                  <div
+                    className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
+                    style={{ background: "rgba(0,212,255,0.1)", border: "1px solid rgba(0,212,255,0.2)" }}
+                  >
+                    <svg className="w-3.5 h-3.5 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                    </svg>
+                  </div>
+                  <span className="text-sm font-black text-slate-800 tracking-tight">Categorías</span>
+                </div>
+
+                <div className="space-y-1.5">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedCategory("all")}
+                    className={`sg-filter-btn w-full px-3 py-2 text-xs font-bold rounded-xl text-left ${
+                      selectedCategory === "all" ? "sg-filter-btn-active" : ""
+                    }`}
+                  >
+                    Todos los servicios
+                  </button>
+                  {categorias.map((cat) => (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => setSelectedCategory(String(cat.id))}
+                      className={`sg-filter-btn w-full px-3 py-2 text-xs font-bold rounded-xl text-left ${
+                        selectedCategory === String(cat.id) ? "sg-filter-btn-active" : ""
+                      }`}
+                    >
+                      {cat.nombre}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Contador */}
+              <div
+                className="rounded-2xl px-5 py-4"
+                style={{
+                  background: "rgba(0,212,255,0.04)",
+                  border: "1px solid rgba(8,145,178,0.12)",
+                }}
+              >
+                <p className="text-xs font-mono text-slate-500">
+                  <span className="font-black text-cyan-600" style={{ fontSize: "1.1rem" }}>
+                    {servicios.length}
+                  </span>{" "}
+                  servicios disponibles
+                </p>
+              </div>
+            </div>
+          </aside>
+
+          {/* Main */}
+          <main className="lg:col-span-3">
+
+            {isLoading && (
+              <div className="flex items-center justify-center py-16">
+                <span className="inline-flex items-center gap-2 text-cyan-500 font-mono text-sm animate-pulse">
+                  <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                  </svg>
+                  Cargando servicios...
+                </span>
+              </div>
+            )}
+
+            {error && (
+              <div
+                className="mb-8 p-4 rounded-xl text-sm font-mono text-center"
+                style={{
+                  background: "rgba(239,68,68,0.05)",
+                  border: "1px solid rgba(239,68,68,0.2)",
+                  color: "#dc2626",
+                }}
+              >
+                No pudimos cargar los servicios. Por favor, reintenta más tarde.
+              </div>
+            )}
+
+            {!isLoading && servicios.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {servicios.map((item, idx) => (
+                  <ServicioCard key={idx} item={item} idx={idx} />
+                ))}
+              </div>
+            ) : (
+              !isLoading && (
+                <div
+                  className="flex flex-col items-center justify-center py-16 rounded-2xl text-center"
+                  style={{
+                    background: "#f8fafc",
+                    border: "1px solid rgba(8,145,178,0.1)",
+                  }}
+                >
+                  <div
+                    className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
+                    style={{ background: "rgba(0,212,255,0.08)", border: "1px solid rgba(0,212,255,0.15)" }}
+                  >
+                    <svg className="w-7 h-7 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-black text-slate-800 mb-1">No se encontraron servicios</h3>
+                  <p className="text-slate-500 text-sm">Intenta ajustar tus filtros de búsqueda</p>
+                </div>
+              )
+            )}
+          </main>
         </div>
 
-        {/* Carga o error */}
-        {isLoading && (
-          <div className="text-center text-slate-500 mb-12 animate-pulse">
-            Cargando paquetes turísticos…
-          </div>
-        )}
-        {error && (
-          <div className="text-center text-red-600 mb-12 bg-red-50 p-4 rounded-xl">
-            No pudimos cargar los paquetes. Por favor, reintenta más tarde.
-          </div>
-        )}
+        {/* ── CTA Final ── */}
+        <div
+          className="max-w-3xl mx-auto rounded-2xl p-8 lg:p-12 text-center relative overflow-hidden"
+          style={{
+            background: "#fff",
+            border: "1px solid rgba(8,145,178,0.18)",
+            boxShadow: "0 4px 40px rgba(0,212,255,0.07), 0 0 0 1px rgba(8,145,178,0.06)",
+          }}
+        >
+          {/* Grid decorativo sutil */}
+          <div
+            className="absolute inset-0 rounded-2xl opacity-50 pointer-events-none"
+            style={{
+              backgroundImage:
+                "linear-gradient(rgba(8,145,178,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(8,145,178,0.04) 1px, transparent 1px)",
+              backgroundSize: "32px 32px",
+            }}
+          />
 
-        {/* ✅ Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mb-20">
-          {servicios.map((item, idx) => (
-            <ServicioCard key={idx} item={item} idx={idx} />
-          ))}
-        </div>
-
-        {/* CTA Final */}
-        <div className="max-w-4xl mx-auto rounded-[3rem] bg-gradient-to-br from-[#dc834e] to-amber-700 p-12 text-center shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
-          <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+          {/* Línea top */}
+          <div
+            className="absolute top-0 left-0 right-0 h-[2px] rounded-t-2xl"
+            style={{ background: "linear-gradient(90deg, transparent, #00d4ff, #3b82f6, transparent)" }}
+          />
 
           <div className="relative z-10">
-            <h4 className="text-4xl font-black text-white mb-6">
-              ¿Listo para tu próxima <span className=" text-5xl">aventura</span>?
+            <div
+              className="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full"
+              style={{
+                border: "1px solid rgba(8,145,178,0.2)",
+                background: "rgba(0,212,255,0.05)",
+              }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse" />
+              <span className="text-cyan-600 text-xs font-mono tracking-widest uppercase">
+                ¿Tenés un proyecto?
+              </span>
+            </div>
+
+            <h4 className="text-2xl lg:text-3xl font-black text-slate-900 mb-3 tracking-tight">
+              Llevemos tu idea al{" "}
+              <span
+                style={{
+                  background: "linear-gradient(90deg, #00d4ff, #3b82f6)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                siguiente nivel
+              </span>
             </h4>
-            <p className="text-white/90 text-lg mb-10 font-light leading-relaxed max-w-2xl mx-auto">
-              Consultanos por disponibilidad, paquetes personalizados y promociones exclusivas.
+
+            <p className="text-slate-500 text-sm lg:text-base mb-8 max-w-md mx-auto leading-relaxed">
+              Consultanos sobre nuestros servicios, tiempos y presupuestos. Respondemos rápido.
             </p>
 
             <a
               href={WhatsappHref({
-                message:
-                  "Hola, vengo desde la web de RevenantTravel y me gustaría información sobre los paquetes turísticos.",
+                message: `Hola, vengo desde la web de ${company?.name ?? "GrupoBits"} y me gustaría consultar sobre sus servicios tecnológicos.`,
               })}
-              className="inline-block bg-white text-[#dc834e] px-12 py-5 rounded-2xl font-black text-lg shadow-xl hover:bg-slate-50 hover:scale-105 transition-all active:scale-95"
+              className="inline-flex items-center gap-3 px-8 py-3.5 rounded-xl font-black text-sm transition-all duration-300 hover:-translate-y-1 active:scale-95"
+              style={{
+                background: "linear-gradient(135deg, #00d4ff, #0891b2)",
+                color: "#fff",
+                boxShadow: "0 0 20px rgba(0,212,255,0.25), 0 4px 16px rgba(8,145,178,0.2)",
+              }}
               target="_blank"
               rel="noreferrer"
             >
-              🌍 CONSULTAR DISPONIBILIDAD
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+              </svg>
+              CONSULTAR POR WHATSAPP
             </a>
           </div>
         </div>
 
-        <div className="mt-12 text-center text-slate-400 font-bold text-sm tracking-widest uppercase">
-          <p>Destinos únicos | Experiencias exclusivas | Viajes inolvidables</p>
+        <div className="mt-8 text-center font-mono text-xs tracking-widest uppercase text-slate-300">
+          Desarrollo · Software · Hardware · Marketing Digital
         </div>
       </div>
-
-      {/* ✅ Animación CSS */}
-      <style jsx>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(3rem);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .animate-fadeInUp {
-          animation: fadeInUp 0.7s ease-out;
-        }
-      `}</style>
     </section>
   );
 }

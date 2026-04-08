@@ -26,17 +26,17 @@ const Cta = () => {
                             </div>
 
                             <h2 className="text-5xl md:text-6xl font-black text-white mb-8 leading-tight">
-                                ¿Listo para renovar <br className="hidden md:block" /> tus aberturas?
+                                ¿Listo para transformar <br className="hidden md:block" /> tu negocio?
                             </h2>
                             <p className="text-xl md:text-2xl text-blue-100 mb-12 max-w-3xl mx-auto font-light leading-relaxed">
-                                Fabricamos a medida con la mejor calidad en aluminio. <br className="hidden md:block" />
+                                Desarrollamos soluciones tecnológicas a medida para tu empresa. <br className="hidden md:block" />
                                 <span className="font-bold text-white">Solicitá tu asesoramiento técnico especializado hoy mismo.</span>
                             </p>
 
                             <div className="flex flex-col sm:flex-row gap-5 justify-center mb-12">
                                 <a
                                     href={WhatsappHref({
-                                        message: "Hola, me gustaría solicitar un presupuesto sin cargo para aberturas.",
+                                        message: "Hola, me gustaría solicitar información sobre soluciones tecnológicas.",
                                     })}
                                     className="group bg-white hover:bg-slate-50 text-[#003366] px-10 py-5 rounded-2xl font-black text-lg shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-4 active:scale-95"
                                 >

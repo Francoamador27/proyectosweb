@@ -131,7 +131,7 @@ const CitasAdmin = () => {
               setBusqueda(e.target.value);
               setPagina(1);
             }}
-            placeholder="Buscar por título, paciente o doctor"
+            placeholder="Buscar por título, usuario o diseño"
             className="border px-3 py-1 rounded w-64"
             autoComplete="off"
           />
@@ -222,8 +222,8 @@ const CitasAdmin = () => {
               <tr>
                 <th className="px-4 py-3 text-left">Color</th>
                 <th className="px-4 py-3 text-left">Título</th>
-                <th className="px-4 py-3 text-left">Doctor</th>
-                <th className="px-4 py-3 text-left">Paciente</th>
+                <th className="px-4 py-3 text-left">diseño</th>
+                <th className="px-4 py-3 text-left">usuario</th>
                 <th className="px-4 py-3 text-left">Inicio</th>
                 <th className="px-4 py-3 text-left">Fin</th>
                 <th className="px-4 py-3 text-left">Monto</th>
@@ -281,7 +281,7 @@ const CitasAdmin = () => {
                     </Link>
 
                     <Link
-                      to={`/admin-dash/pacientes/historial/${ev.idpa}`}
+                      to={`/admin-dash/usuarios/historial/${ev.idpa}`}
                       className="inline-block bg-blue-300 hover:bg-blue-400 text-white text-xs font-semibold px-3 py-3 rounded"
                     >
                       <p className="flex items-center gap-1">

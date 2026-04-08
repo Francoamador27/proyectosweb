@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone, User, ShoppingCart, ChevronDown } from "lucide-react";
+import { Menu, X, Phone, User, ShoppingCart, ChevronDown, Briefcase } from "lucide-react";
 
-import logo from '../../assets/img/logo/logo_blanco.png';
-import logo_azul from '../../assets/img/logo/logo_negro.png';
+import logo from '../../assets/img/logo/logo_azul.png';
+import logo_azul from '../../assets/img/logo/logo_azul.png';
 import { label } from 'yet-another-react-lightbox';
 
 export default function Header() {
@@ -28,14 +28,16 @@ export default function Header() {
 
   const leftNav = [
     { label: "Inicio", href: "/" },
-    { label: "Paquetes", href: "/servicios" },
-    { label: "Galería", href: "/galeria" },
+    { label: "Servicios", href: "/servicios" },
+    // { label: "Galería", href: "/galeria" },
+    { label: "Portafolio", href: "/portafolio" },
   ];
 
   const rightNav = [
     { label: "Quiénes Somos", href: "/quienes-somos" },
-    {label:"Blog", href:"/blog"},
+    { label: "Blog", href: "/blog" },
     { label: "Contacto", href: "/contacto" },
+    // { label: "Trabaja con Nosotros", href: "/trabaja-con-nosotros" },
   ];
 
   // Determinar si usar estilo claro (para home sin scroll) u oscuro (para home con scroll o cualquier otra página)
@@ -55,17 +57,29 @@ export default function Header() {
             {/* LOGO A LA IZQUIERDA */}
             <Link
               to="/"
-              className="flex-shrink-0 relative group flex items-center"
+              className="relative group flex items-center gap-3"
             >
-              <div className={`absolute -inset-4 bg-[#dc834e]/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
+              {/* Glow effect */}
+              <div className="absolute -inset-3 bg-gradient-to-r from-sky-500/20 via-cyan-400/20 to-indigo-500/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+
+              {/* Logo */}
               <img
                 src={useDarkStyle ? logo_azul : logo}
-                alt="RevenantTravel"
-                className="logo-header h-10 md:h-12 w-auto object-contain transition-all duration-500 group-hover:scale-105 relative z-10"
+                alt="GrupoBits"
+                className="h-10 md:h-12 w-auto object-contain transition-transform duration-500 group-hover:scale-105 relative z-10"
               />
-            </Link>
 
-            {/* NAVEGACION (Desktop) */}
+              <div className="relative z-10 leading-tight">
+                <p className={`text-lg md:text-xl font-semibold tracking-tight ${useDarkStyle ? 'text-slate-800' : 'text-white'}`}>
+                  Grupo<span className="text-cyan-400">Bits</span>
+                </p>
+                <p className={`text-[11px] d-flex justify-center uppercase tracking-widest ${useDarkStyle ? 'text-slate-500' : 'text-slate-300'}`}>
+                  IT & MKT
+                </p>
+              </div>
+              </Link>
+
+              {/* NAVEGACION (Desktop) */}
             <ul className="hidden lg:flex items-center gap-1">
               {[...leftNav, ...rightNav].map((item, i) => (
                 <li key={i}>
@@ -74,14 +88,14 @@ export default function Header() {
                     className={({ isActive }) => `
                       relative px-5 py-2 text-[14px] font-bold tracking-tight uppercase transition-all duration-300
                       ${useDarkStyle
-                        ? (isActive ? 'text-[#dc834e]' : 'text-slate-700 hover:text-[#dc834e]')
+                        ? (isActive ? 'text-[#0891b2]' : 'text-slate-700 hover:text-[#0891b2]')
                         : (isActive ? 'text-white' : 'text-white/90 hover:text-white')
                       }
                       group
                     `}
                   >
                     {item.label}
-                    <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#dc834e] transition-all duration-300 group-hover:w-3/4 ${({ isActive }) => isActive ? 'w-3/4' : ''}`}></span>
+                    <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#0891b2] transition-all duration-300 group-hover:w-3/4 ${({ isActive }) => isActive ? 'w-3/4' : ''}`}></span>
                   </NavLink>
                 </li>
               ))}
@@ -117,8 +131,8 @@ export default function Header() {
                     className={({ isActive }) => `
                       flex items-center px-6 py-4 rounded-2xl text-base font-bold tracking-tight transition-all
                       ${isActive
-                        ? 'bg-[#dc834e]/10 text-[#dc834e] translate-x-2' 
-                        :  'text-slate-700 hover:bg-slate-50' 
+                        ? 'bg-[#0891b2]/10 text-[#0891b2] translate-x-2'
+                        : 'text-slate-700 hover:bg-slate-50'
                       }
                     `}
                   >
@@ -131,10 +145,21 @@ export default function Header() {
                 <Link
                   to="/contacto"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center gap-3 py-4 bg-[#dc834e] hover:bg-[#c77542] text-white rounded-2xl font-black text-base shadow-xl shadow-[#dc834e]/20 active:scale-95 transition-all"
+                  className="flex items-center justify-center gap-3 py-4 bg-[#0891b2] hover:bg-[#0e7490] text-white rounded-2xl font-black text-base shadow-xl shadow-[#0891b2]/20 active:scale-95 transition-all"
                 >
                   <Phone size={18} />
                   CONTACTANOS
+                </Link>
+              </li>
+
+              <li className="pt-2">
+                <Link
+                  to="/trabaja-con-nosotros"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-center gap-3 py-4 bg-green-600 hover:bg-green-700 text-white rounded-2xl font-black text-base shadow-xl shadow-green-600/20 active:scale-95 transition-all"
+                >
+                  <Briefcase size={18} />
+                  TRABAJA CON NOSOTROS
                 </Link>
               </li>
             </ul>

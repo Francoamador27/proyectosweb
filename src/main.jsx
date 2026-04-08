@@ -21,6 +21,22 @@ import { IOSInstallHint } from "./components/IOSInstallHint";
 
 // 👉 nuevos imports
 
+// Registrar Service Worker con manejo de errores
+try {
+  registerSW({
+    onNeedRefresh() {
+      // Mostrar notificación de actualización disponible
+    },
+    onOfflineReady() {
+      // La app está lista para usar offline
+    },
+    immediate: true,
+  });
+} catch (error) {
+  console.warn('Error al registrar Service Worker:', error);
+  // No lanzar error, dejar que la app funcione sin SW
+}
+
 createRoot(document.getElementById("root")).render(
     <Provider>
       {/* GTM / scripts globales */}

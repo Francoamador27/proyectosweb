@@ -1,10 +1,10 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import TratamientosForm from './TratamientosForm';
+import ServiciosForm from './ServiciosForm';
 import ServiciosList from '../components/Servicios/ServiciosList';
 import ServiciosCategorias from '../components/Servicios/ServiciosCategorias';
 
 // Reemplaza estos por tus componentes reales
-const CrearServicio = () => <div className="text-slate-700"><TratamientosForm /></div>;
+const CrearServicio = () => <div className="text-slate-700"><ServiciosForm /></div>;
 const ListaServicios = () => <div className="text-slate-700"><ServiciosList /></div>;
 const ListaCategorias = () => <div className="text-slate-700"><ServiciosCategorias /></div>;
 
@@ -13,8 +13,8 @@ const ServiciosManager = () => {
 
   const tabs = useMemo(
     () => [
-      { key: "crear", label: "Crear Paquete", element: <CrearServicio /> },
-      { key: "servicios", label: "Paquetes", element: <ListaServicios /> },
+      { key: "crear", label: "Crear servicio", element: <CrearServicio /> },
+      { key: "servicios", label: "Servicios", element: <ListaServicios /> },
       { key: "categorias", label: "Categorias", element: <ListaCategorias /> },
     ],
     []
@@ -39,14 +39,14 @@ const ServiciosManager = () => {
       {/* Header opcional */}
       <div className="text-center mb-6">
         <h1 className="text-3xl font-bold text-slate-800 mb-2">
-          Gestion de Paquetes
+          Gestion de Servicios
         </h1>
       </div>
 
       {/* Tabs header */}
       <div
         role="tablist"
-        aria-label="Gestion de Paquetes"
+        aria-label="Gestion de Servicios"
         onKeyDown={onKeyDown}
         className="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-2 bg-white rounded-t-lg px-6 pt-4"
       >

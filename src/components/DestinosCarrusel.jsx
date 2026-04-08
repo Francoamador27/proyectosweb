@@ -1,256 +1,439 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import useSWR from "swr";
 import clienteAxios from "../config/axios";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Autoplay, EffectCoverflow } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/effect-coverflow";
+import DestinoCard from "./DestinoCard";
+
+// ── Animación letra a letra ──────────────────────────────────────────────────
+function AnimatedLetters({ text, baseDelay = 0, className = "", gradient = false }) {
+  return (
+    <span className={className} aria-label={text}>
+      {text.split("").map((char, i) => (
+        <span
+          key={i}
+          className="letter-reveal inline-block"
+          style={{
+            animationDelay: `${baseDelay + i * 50}ms`,
+            ...(gradient && char !== " "
+              ? {
+                  background: "linear-gradient(135deg, #00d4ff 0%, #3b82f6 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }
+              : {}),
+          }}
+        >
+          {char === " " ? "\u00A0" : char}
+        </span>
+      ))}
+    </span>
+  );
+}
+
+// ── Texto con reveal por palabras ────────────────────────────────────────────
+function AnimatedWords({ text, baseDelay = 0, className = "" }) {
+  return (
+    <span className={className} aria-label={text}>
+      {text.split(" ").map((word, i) => (
+        <span
+          key={i}
+          className="word-reveal inline-block"
+          style={{ animationDelay: `${baseDelay + i * 80}ms` }}
+        >
+          {word}&nbsp;
+        </span>
+      ))}
+    </span>
+  );
+}
+
+// ── Contador numérico animado ────────────────────────────────────────────────
+function CountUp({ target, suffix = "", duration = 1200 }) {
+  const [val, setVal] = useState(0);
+  const ref = useRef(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started.current) {
+          started.current = true;
+          const steps = 40;
+          const step = target / steps;
+          let current = 0;
+          const interval = setInterval(() => {
+            current += step;
+            if (current >= target) { setVal(target); clearInterval(interval); }
+            else setVal(Math.floor(current));
+          }, duration / steps);
+        }
+      },
+      { threshold: 0.5 }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [target, duration]);
+
+  return <span ref={ref}>{val}{suffix}</span>;
+}
 
 export default function DestinosCarrusel() {
   const [categorias, setCategorias] = useState([]);
+  const [headerVisible, setHeaderVisible] = useState(false);
+  const headerRef = useRef(null);
 
-  // ---- SWR - Obtener categorías ----
   const fetcher = (url) => clienteAxios(url).then((res) => res.data);
 
-  const { data, error, isLoading } = useSWR(
-    "/api/servicios-categorias",
-    fetcher,
-    {
-      revalidateOnFocus: false,
-      keepPreviousData: true,
-    }
-  );
+  const { data, error, isLoading } = useSWR("/api/servicios-categorias", fetcher, {
+    revalidateOnFocus: false,
+    keepPreviousData: true,
+  });
 
   useEffect(() => {
     if (!data) return;
-    const items = Array.isArray(data?.data)
-      ? data.data
-      : Array.isArray(data)
-      ? data
-      : [];
+    const items = Array.isArray(data?.data) ? data.data : Array.isArray(data) ? data : [];
     setCategorias(items);
   }, [data]);
 
+  // Trigger animaciones del header cuando entra en pantalla
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) setHeaderVisible(true); },
+      { threshold: 0.2 }
+    );
+    if (headerRef.current) observer.observe(headerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  // ── Loading skeleton tech ─────────────────────────────────────────────────
   if (isLoading) {
     return (
-      <section className="relative bg-slate-50 py-20 px-6">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="animate-pulse">
-            <div className="h-8 bg-slate-200 rounded w-64 mx-auto mb-4"></div>
-            <div className="h-4 bg-slate-200 rounded w-96 mx-auto"></div>
+      <section className="relative py-24 px-6 overflow-hidden" style={{ background: "#050a14" }}>
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
+        />
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16 space-y-4">
+            <div className="h-4 w-40 mx-auto rounded-full" style={{ background: "rgba(0,212,255,0.1)" }} />
+            <div className="h-12 w-80 mx-auto rounded-xl" style={{ background: "rgba(0,212,255,0.06)" }} />
+            <div className="h-4 w-64 mx-auto rounded-full" style={{ background: "rgba(255,255,255,0.04)" }} />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {[...Array(4)].map((_, i) => (
+              <div
+                key={i}
+                className="h-[280px] rounded-2xl animate-pulse"
+                style={{
+                  background: "rgba(0,212,255,0.04)",
+                  border: "1px solid rgba(0,212,255,0.08)",
+                  animationDelay: `${i * 150}ms`,
+                }}
+              />
+            ))}
           </div>
         </div>
       </section>
     );
   }
 
-  if (error || categorias.length === 0) {
-    return null;
-  }
+  if (error || categorias.length === 0) return null;
 
   return (
-    <section className="relative bg-gradient-to-b from-slate-50 to-white py-24 px-6 overflow-hidden">
-      {/* Efectos de fondo */}
-      <div className="absolute inset-0 opacity-[0.03]">
-        <div className="absolute top-32 left-20 w-96 h-96 bg-[#dc834e] rounded-full blur-3xl"></div>
-        <div className="absolute bottom-32 right-20 w-96 h-96 bg-amber-600 rounded-full blur-3xl"></div>
-      </div>
+    <section
+      className="relative py-24 px-6 lg:px-20 overflow-hidden"
+      style={{ background: "#050a14" }}
+    >
+      {/* ── Estilos de animación ── */}
+      <style>{`
+        /* Letra a letra */
+        @keyframes letterReveal {
+          0%   { opacity: 0; transform: translateY(24px) rotateX(-40deg); filter: blur(4px); }
+          60%  { opacity: 0.8; filter: blur(0px); }
+          100% { opacity: 1; transform: translateY(0) rotateX(0deg); filter: blur(0px); }
+        }
+        .letter-reveal {
+          opacity: 0;
+          animation: letterReveal 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        /* Palabra a palabra */
+        @keyframes wordReveal {
+          0%   { opacity: 0; transform: translateY(16px); filter: blur(3px); }
+          100% { opacity: 1; transform: translateY(0);    filter: blur(0px); }
+        }
+        .word-reveal {
+          opacity: 0;
+          animation: wordReveal 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        /* Fade desde abajo para bloques */
+        @keyframes blockFadeUp {
+          0%   { opacity: 0; transform: translateY(32px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        .block-fade-up {
+          opacity: 0;
+          animation: blockFadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        /* Fade desde izquierda */
+        @keyframes fadeLeft {
+          0%   { opacity: 0; transform: translateX(-20px); }
+          100% { opacity: 1; transform: translateX(0); }
+        }
+        .fade-left { opacity: 0; animation: fadeLeft 0.6s cubic-bezier(0.22,1,0.36,1) forwards; }
+
+        /* Línea de scan animada */
+        @keyframes scanRight {
+          0%   { transform: translateX(-100%); opacity: 0; }
+          20%  { opacity: 1; }
+          80%  { opacity: 1; }
+          100% { transform: translateX(300%); opacity: 0; }
+        }
+        .scan-line { animation: scanRight 2.4s ease-in-out 0.8s forwards; }
+
+        /* Blink cursor */
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50%       { opacity: 0; }
+        }
+        .cursor-blink { animation: blink 0.9s step-end infinite; }
+
+        /* Glow pulse en divisor */
+        @keyframes dotGlow {
+          0%, 100% { box-shadow: 0 0 6px rgba(0,212,255,0.7); }
+          50%       { box-shadow: 0 0 16px rgba(0,212,255,1), 0 0 28px rgba(0,212,255,0.4); }
+        }
+        .dot-glow { animation: dotGlow 2s ease-in-out infinite; }
+
+        /* Cards stagger */
+        @keyframes cardReveal {
+          0%   { opacity: 0; transform: translateY(40px) scale(0.97); }
+          100% { opacity: 1; transform: translateY(0)  scale(1); }
+        }
+        .card-reveal {
+          opacity: 0;
+          animation: cardReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        /* Badge entrada */
+        @keyframes badgeIn {
+          0%   { opacity: 0; transform: scale(0.85) translateY(-8px); }
+          100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .badge-in { opacity: 0; animation: badgeIn 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+
+        /* Hover scan vertical en cards */
+        @keyframes vertScan {
+          0%   { top: -10%; opacity: 0; }
+          10%  { opacity: 0.6; }
+          90%  { opacity: 0.4; }
+          100% { top: 110%; opacity: 0; }
+        }
+        .vert-scan { animation: vertScan 1.4s ease-in-out; }
+
+        /* Stats slide-in */
+        @keyframes statIn {
+          0%   { opacity: 0; transform: translateX(-12px); }
+          100% { opacity: 1; transform: translateX(0); }
+        }
+        .stat-in { opacity: 0; animation: statIn 0.5s ease-out forwards; }
+      `}</style>
+
+      {/* ── Grid de fondo ── */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(0,212,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.035) 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+        }}
+      />
+
+      {/* ── Glows ambiente ── */}
+      <div
+        className="absolute top-0 left-1/3 w-[500px] h-[500px] rounded-full blur-3xl pointer-events-none"
+        style={{ background: "rgba(0,212,255,0.055)" }}
+      />
+      <div
+        className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full blur-3xl pointer-events-none"
+        style={{ background: "rgba(59,130,246,0.06)" }}
+      />
+
+      {/* ── Línea de acento top ── */}
+      <div
+        className="absolute top-0 left-0 right-0 h-px pointer-events-none"
+        style={{ background: "linear-gradient(90deg, transparent, rgba(0,212,255,0.5), transparent)" }}
+      />
 
       <div className="relative z-10 max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-[#dc834e]/10 px-6 py-2.5 rounded-full text-[#dc834e] font-black text-sm mb-6 border border-[#dc834e]/20 shadow-md">
-            <span className="w-2 h-2 bg-[#dc834e] rounded-full animate-ping"></span>
-            EXPLORA EL MUNDO
-          </div>
 
-          <h2 className="text-5xl lg:text-6xl font-black text-slate-900 mb-6 tracking-tight">
-            Nuestros{" "}
-            <span className="text-[#dc834e] text-6xl lg:text-7xl">
-              Destinos
-            </span>
+        {/* ══════════════ HEADER ══════════════ */}
+        <div ref={headerRef} className="text-center mb-20">
+
+          {/* Badge */}
+          {headerVisible && (
+            <div
+              className="badge-in inline-flex items-center gap-2 mb-7 px-5 py-2 rounded-full"
+              style={{
+                border: "1px solid rgba(0,212,255,0.3)",
+                background: "rgba(0,212,255,0.07)",
+                backdropFilter: "blur(8px)",
+                animationDelay: "0ms",
+              }}
+            >
+              <span
+                className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"
+                style={{ boxShadow: "0 0 6px #00d4ff" }}
+              />
+              <span className="text-cyan-300 text-xs font-mono tracking-widest uppercase">
+                GrupoBits · Stack Tecnológico
+              </span>
+              <span className="cursor-blink text-cyan-400 font-mono text-sm leading-none">_</span>
+            </div>
+          )}
+
+          {/* Título animado letra a letra */}
+          <h2 className="text-5xl lg:text-6xl font-black tracking-tight text-white mb-6 relative inline-block">
+            {headerVisible && (
+              <>
+                <AnimatedLetters text="Nuestras " baseDelay={100} className="inline-block" />
+
+                {/* Línea de scan que cruza la palabra */}
+                <span className="relative inline-block overflow-hidden">
+                  <AnimatedLetters
+                    text="Soluciones"
+                    baseDelay={550}
+                    gradient
+                    className="relative z-10"
+                  />
+                  <span
+                    className="scan-line absolute top-0 bottom-0 w-12 pointer-events-none"
+                    style={{
+                      background:
+                        "linear-gradient(90deg, transparent, rgba(0,212,255,0.5), transparent)",
+                      left: 0,
+                    }}
+                  />
+                </span>
+              </>
+            )}
           </h2>
 
-          <p className="text-slate-600 max-w-2xl mx-auto text-xl leading-relaxed font-light">
-            Descubre experiencias únicas en los destinos más fascinantes del
-            planeta
+          {/* Subtítulo con reveal por palabras */}
+          <p
+            className="max-w-2xl mx-auto text-lg leading-relaxed mb-2"
+            style={{ color: "rgba(255,255,255,0.55)" }}
+          >
+            {headerVisible && (
+              <AnimatedWords
+                text="Conoce las tecnologías y servicios que transforman negocios"
+                baseDelay={900}
+              />
+            )}
           </p>
 
-          <div className="mt-10 flex items-center justify-center gap-3">
-            <div className="h-1.5 w-20 rounded-full bg-[#dc834e]"></div>
-            <div className="h-2 w-2 rounded-full bg-[#dc834e]"></div>
-            <div className="h-1.5 w-20 rounded-full bg-[#dc834e]"></div>
-          </div>
+          {/* Divisor animado */}
+          {headerVisible && (
+            <div
+              className="block-fade-up mt-10 flex items-center justify-center gap-3"
+              style={{ animationDelay: "1100ms" }}
+            >
+              <div
+                className="h-px w-24 rounded-full"
+                style={{ background: "linear-gradient(90deg, transparent, #00d4ff)" }}
+              />
+              <div
+                className="w-2.5 h-2.5 rounded-full bg-cyan-400 dot-glow"
+              />
+              <div
+                className="h-px w-24 rounded-full"
+                style={{ background: "linear-gradient(90deg, #00d4ff, transparent)" }}
+              />
+            </div>
+          )}
+
+          {/* Stats tech */}
+          {headerVisible && categorias.length > 0 && (
+            <div
+              className="block-fade-up mt-10 inline-flex items-center gap-8 px-8 py-4 rounded-2xl"
+              style={{
+                animationDelay: "1250ms",
+                background: "rgba(0,212,255,0.04)",
+                border: "1px solid rgba(0,212,255,0.1)",
+              }}
+            >
+              {[
+                { label: "Categorías", value: categorias.length, suffix: "+" },
+                { label: "Tecnologías", value: 12, suffix: "+" },
+                { label: "Proyectos", value: 50, suffix: "+" },
+              ].map((stat, i) => (
+                <div
+                  key={i}
+                  className="stat-in text-center"
+                  style={{ animationDelay: `${1300 + i * 120}ms` }}
+                >
+                  <div
+                    className="text-2xl font-black font-mono"
+                    style={{ color: "#00d4ff" }}
+                  >
+                    <CountUp target={stat.value} suffix={stat.suffix} />
+                  </div>
+                  <div className="text-xs font-mono tracking-widest uppercase" style={{ color: "rgba(255,255,255,0.3)" }}>
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* Carrusel */}
-        <div className="relative">
-          <Swiper
-            modules={[Navigation, Pagination, Autoplay, EffectCoverflow]}
-            effect="coverflow"
-            coverflowEffect={{
-              rotate: 15,
-              stretch: 0,
-              depth: 200,
-              modifier: 1.5,
-              slideShadows: false,
-            }}
-            spaceBetween={30}
-            slidesPerView={3}
-            centeredSlides={true}
-            loop={true}
-            autoplay={{
-              delay: 4000,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            }}
-            navigation={{
-              nextEl: ".destinos-swiper-button-next",
-              prevEl: ".destinos-swiper-button-prev",
-            }}
-            pagination={{
-              clickable: true,
-              dynamicBullets: true,
-            }}
-            breakpoints={{
-              320: {
-                slidesPerView: 1,
-              },
-              640: {
-                slidesPerView: 2,
-              },
-              1024: {
-                slidesPerView: 3,
-              },
-            }}
-            className="destinos-swiper pb-16"
-          >
-            {categorias.map((categoria) => {
-              const slug =
-                categoria.nombre?.toLowerCase().replace(/\s+/g, "-") ||
-                categoria.id;
-              return (
-                <SwiperSlide key={categoria.id}>
-                  <Link to={`/paquetes/${slug}`}>
-                    <div className="group relative h-[420px] rounded-3xl overflow-hidden shadow-2xl transform transition-all duration-700 hover:shadow-[0_30px_70px_rgba(220,131,78,0.25)] cursor-pointer">
-                      {/* Imagen de fondo */}
-                      <div className="absolute inset-0 z-0">
-                        {categoria.imagen ? (
-                          <img
-                            src={categoria.imagen}
-                            alt={categoria.nombre}
-                            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
-                            loading="lazy"
-                          />
-                        ) : (
-                          <div className="w-full h-full bg-gradient-to-br from-[#dc834e] via-[#c77542] to-amber-700"></div>
-                        )}
-
-                        {/* Overlay con gradiente */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/95 via-slate-900/50 to-transparent transition-all duration-500 group-hover:from-[#dc834e]/95 group-hover:via-slate-900/70" />
-                      </div>
-
-                      {/* Contenido */}
-                      <div className="relative z-10 h-full flex flex-col justify-end p-8 text-white">
-                        <h3 className="text-4xl font-black mb-4 tracking-tight transition-transform duration-500 group-hover:-translate-y-2 leading-tight">
-                          {categoria.nombre}
-                        </h3>
-
-                        {categoria.descripcion && (
-                          <p className="text-white/90 text-base mb-6 leading-relaxed line-clamp-3 transition-all duration-500 group-hover:text-white">
-                            {categoria.descripcion}
-                          </p>
-                        )}
-
-                        {/* CTA */}
-                        <div className="flex items-center gap-3 opacity-80 transform transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-2">
-                          <span className="text-sm font-bold tracking-tight uppercase text-white">
-                            Explorar destino
-                          </span>
-                          <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm border border-white/40 flex items-center justify-center transition-all duration-300 group-hover:bg-white/30">
-                            <svg
-                              className="w-5 h-5 text-white"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={3}
-                                d="M9 5l7 7-7 7"
-                              />
-                            </svg>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
-
-          {/* Botones de navegación personalizados */}
-          <button className="destinos-swiper-button-prev absolute top-1/2 -translate-y-1/2 left-4 z-20 w-14 h-14 rounded-full bg-white/90 backdrop-blur-sm shadow-2xl flex items-center justify-center text-[#dc834e] hover:bg-[#dc834e] hover:text-white transition-all duration-300 hover:scale-110 active:scale-95">
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+        {/* ══════════════ GRID DE CARDS ══════════════ */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {categorias.map((categoria, idx) => (
+            <div
+              key={categoria.id}
+              className="card-reveal"
+              style={{ animationDelay: `${idx * 140}ms` }}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={3}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
-          <button className="destinos-swiper-button-next absolute top-1/2 -translate-y-1/2 right-4 z-20 w-14 h-14 rounded-full bg-white/90 backdrop-blur-sm shadow-2xl flex items-center justify-center text-[#dc834e] hover:bg-[#dc834e] hover:text-white transition-all duration-300 hover:scale-110 active:scale-95">
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={3}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </button>
+              <DestinoCard categoria={categoria} />
+            </div>
+          ))}
         </div>
 
-        {/* Link a todos los paquetes */}
-        <div className="text-center mt-12">
+        {/* ══════════════ CTA ══════════════ */}
+        <div className="text-center mt-14">
           <Link
             to="/servicios"
-            className="inline-block bg-[#dc834e] hover:bg-[#c77542] text-white px-10 py-4 rounded-2xl font-black text-base shadow-xl shadow-[#dc834e]/20 active:scale-95 transition-all"
+            className="group inline-flex items-center gap-3 px-10 py-4 rounded-xl font-black text-sm transition-all duration-300 hover:-translate-y-1 active:scale-95"
+            style={{
+              background: "linear-gradient(135deg, #00d4ff, #3b82f6)",
+              color: "#050a14",
+              boxShadow: "0 0 24px rgba(0,212,255,0.3), 0 4px 20px rgba(59,130,246,0.2)",
+            }}
           >
-            VER TODOS LOS PAQUETES
+            <svg
+              className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2.5}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+            VER TODOS LOS SERVICIOS
           </Link>
+
+          <p className="mt-4 text-xs font-mono tracking-widest uppercase" style={{ color: "rgba(255,255,255,0.2)" }}>
+            Desarrollo · Cloud · Integraciones · SEO
+          </p>
         </div>
       </div>
-
-      <style jsx>{`
-        .destinos-swiper .swiper-pagination-bullet {
-          background: #dc834e;
-          opacity: 0.4;
-          width: 12px;
-          height: 12px;
-        }
-
-        .destinos-swiper .swiper-pagination-bullet-active {
-          opacity: 1;
-          transform: scale(1.3);
-        }
-      `}</style>
     </section>
   );
 }

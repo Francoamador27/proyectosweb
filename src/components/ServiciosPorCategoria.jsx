@@ -97,19 +97,19 @@ export default function ServiciosPorCategoria() {
               loading="lazy"
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-[#dc834e] via-[#c77542] to-amber-700 flex items-center justify-center">
+            <div className="w-full h-full bg-gradient-to-br from-[#0891b2] via-[#0e7490] to-cyan-700 flex items-center justify-center">
               <span className="text-8xl opacity-30">{item.icon}</span>
             </div>
           )}
 
           {/* Overlay con gradiente elegante */}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/95 via-slate-900/40 to-transparent transition-all duration-500 group-hover:from-[#dc834e]/90 group-hover:via-slate-900/60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/95 via-slate-900/40 to-transparent transition-all duration-500 group-hover:from-[#0891b2]/90 group-hover:via-slate-900/60" />
         </div>
 
         {/* Badge Superior - Posición Absoluta */}
         {item.highlight && (
           <div className="absolute top-6 right-6 z-20">
-            <span className="bg-[#dc834e]/90 backdrop-blur-md text-white text-[11px] font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-lg border border-white/20">
+            <span className="bg-[#0891b2]/90 backdrop-blur-md text-white text-[11px] font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-lg border border-white/20">
               {item.highlight}
             </span>
           </div>
@@ -130,7 +130,7 @@ export default function ServiciosPorCategoria() {
           {/* Precio si existe */}
           {item.price && (
             <div className="mb-4">
-              <span className="text-2xl font-black text-[#dc834e] bg-white/90 px-4 py-1 rounded-full">
+              <span className="text-2xl font-black text-[#0891b2] bg-white/90 px-4 py-1 rounded-full">
                 ${item.price}
               </span>
             </div>
@@ -139,9 +139,9 @@ export default function ServiciosPorCategoria() {
           {/* CTA hover */}
           <div className="flex items-center gap-3 opacity-70 transform transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-2">
             <span className="text-sm font-bold tracking-tight uppercase text-white">
-              Ver detalles del paquete
+              Ver detalles del servicio
             </span>
-            <div className="w-8 h-8 rounded-full bg-[#dc834e]/80 backdrop-blur-sm border border-white/30 flex items-center justify-center transition-all duration-300 group-hover:bg-[#dc834e]">
+            <div className="w-8 h-8 rounded-full bg-[#0891b2]/80 backdrop-blur-sm border border-white/30 flex items-center justify-center transition-all duration-300 group-hover:bg-[#0891b2]">
               <svg
                 className="w-4 h-4 text-white"
                 fill="none"
@@ -177,16 +177,16 @@ export default function ServiciosPorCategoria() {
     <section className="relative bg-slate-50 py-24 px-6 lg:px-20 overflow-hidden">
       <SEOHead
         priority="high"
-        title={`${categoriaInfo?.nombre || "Categoría"} | RevenantTravel`}
+        title={`${categoriaInfo?.nombre || "Solución"} | Grupo Bits`}
         description={
           categoriaInfo?.descripcion ||
-          "Descubre nuestros paquetes turísticos exclusivos."
+          "Descubre nuestros Servicios  exclusivos."
         }
       />
 
       {/* Efectos de fondo */}
       <div className="absolute inset-0 opacity-[0.04]">
-        <div className="absolute top-20 left-10 w-64 h-64 bg-[#dc834e] rounded-full blur-3xl"></div>
+        <div className="absolute top-20 left-10 w-64 h-64 bg-[#0891b2] rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 right-10 w-80 h-80 bg-amber-600 rounded-full blur-3xl"></div>
       </div>
 
@@ -196,19 +196,19 @@ export default function ServiciosPorCategoria() {
           <nav className="flex items-center gap-2 text-sm">
             <Link
               to="/"
-              className="text-slate-500 hover:text-[#dc834e] transition-colors"
+              className="text-slate-500 hover:text-[#0891b2] transition-colors"
             >
               Inicio
             </Link>
             <span className="text-slate-400">/</span>
             <Link
               to="/servicios"
-              className="text-slate-500 hover:text-[#dc834e] transition-colors"
+              className="text-slate-500 hover:text-[#0891b2] transition-colors"
             >
-              Paquetes
+              Servicios
             </Link>
             <span className="text-slate-400">/</span>
-            <span className="text-[#dc834e] font-semibold">
+            <span className="text-[#0891b2] font-semibold">
               {categoriaInfo?.nombre || "..."}
             </span>
           </nav>
@@ -244,21 +244,21 @@ export default function ServiciosPorCategoria() {
           )}
 
           <div className="mt-10 flex items-center justify-center gap-3">
-            <div className="h-1.5 w-20 rounded-full bg-[#dc834e]"></div>
-            <div className="h-2 w-2 rounded-full bg-[#dc834e]"></div>
-            <div className="h-1.5 w-20 rounded-full bg-[#dc834e]"></div>
+            <div className="h-1.5 w-20 rounded-full bg-[#0891b2]"></div>
+            <div className="h-2 w-2 rounded-full bg-[#0891b2]"></div>
+            <div className="h-1.5 w-20 rounded-full bg-[#0891b2]"></div>
           </div>
         </div>
 
         {/* Carga o error */}
         {isLoading && (
           <div className="text-center text-slate-500 mb-12 animate-pulse">
-            Cargando paquetes...
+            Cargando Servicios...
           </div>
         )}
         {error && (
           <div className="text-center text-red-600 mb-12 bg-red-50 p-4 rounded-xl">
-            No pudimos cargar los paquetes. Por favor, reintenta más tarde.
+            No pudimos cargar los Servicios. Por favor, reintenta más tarde.
           </div>
         )}
 
@@ -266,13 +266,13 @@ export default function ServiciosPorCategoria() {
         {!isLoading && servicios.length === 0 && (
           <div className="text-center text-slate-500 mb-12 bg-slate-100 p-8 rounded-2xl">
             <p className="text-xl font-semibold mb-2">
-              No hay paquetes disponibles en esta categoría
+              No hay Servicios disponibles en esta categoría
             </p>
             <Link
               to="/servicios"
-              className="text-[#dc834e] hover:underline font-bold"
+              className="text-[#0891b2] hover:underline font-bold"
             >
-              Ver todos los paquetes
+              Ver todos los Servicios
             </Link>
           </div>
         )}
@@ -287,7 +287,7 @@ export default function ServiciosPorCategoria() {
         )}
 
         {/* CTA Final */}
-        <div className="max-w-4xl mx-auto rounded-[3rem] bg-gradient-to-br from-[#dc834e] to-amber-700 p-12 text-center shadow-2xl relative overflow-hidden">
+        <div className="max-w-4xl mx-auto rounded-[3rem] bg-gradient-to-br from-[#0891b2] to-cyan-700 p-12 text-center shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
           <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
 
@@ -297,17 +297,16 @@ export default function ServiciosPorCategoria() {
               <span className="text-5xl">aventura</span>?
             </h4>
             <p className="text-white/90 text-lg mb-10 font-light leading-relaxed max-w-2xl mx-auto">
-              Consultanos por disponibilidad, paquetes personalizados y
+              Consultanos por disponibilidad, Servicios personalizados y
               promociones exclusivas.
             </p>
 
             <a
               href={WhatsappHref({
-                message: `Hola, vengo desde la web de RevenantTravel y me gustaría información sobre ${
-                  categoriaInfo?.nombre || "los paquetes turísticos"
+                message: `Hola, vengo desde la web de Grupo Bits y me gustaría información sobre ${                  categoriaInfo?.nombre || "los Servicios "
                 }.`,
               })}
-              className="inline-block bg-white text-[#dc834e] px-12 py-5 rounded-2xl font-black text-lg shadow-xl hover:bg-slate-50 hover:scale-105 transition-all active:scale-95"
+              className="inline-block bg-white text-[#0891b2] px-12 py-5 rounded-2xl font-black text-lg shadow-xl hover:bg-slate-50 hover:scale-105 transition-all active:scale-95"
               target="_blank"
               rel="noreferrer"
             >

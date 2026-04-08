@@ -5,22 +5,22 @@ import WhatsappHref from '../utils/WhatsappUrl';
 import Mapa from './Mapa/Mapa';
 import useCont from '../hooks/useCont';
 import SEOHead from './Head/Head';
-
+import Lanyard from './Lanyard';
+import MagicBento from './MagicBento';
 const QuienesSomos = () => {
   const { company, logoUrl, contact } = useCont();
 
-  // JSON-LD optimizado para agencia de turismo
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "TravelAgency",
-    "name": company?.name || "RevenantTravel",
+    "@type": "ProfessionalService",
+    "name": company?.name || "Grupo Bits",
     "url": window?.location?.origin || "",
     "logo": logoUrl || `${window?.location?.origin || ''}/logo.png`,
-    "description": "Agencia de viajes especializada en experiencias únicas. Paquetes turísticos personalizados a los mejores destinos del mundo con asesoramiento experto.",
+    "description": "Consultora especializada en transformación digital para empresas y emprendedores. Integramos tecnología, marketing y comunicación para lograr crecimiento real y medible.",
     "contactPoint": {
       "@type": "ContactPoint",
       "telephone": contact?.phone || "+54 9 351 0000000",
-      "contactType": "Atención al cliente",
+      "contactType": "Consultoría Digital",
       "areaServed": "AR",
       "availableLanguage": ["Español"]
     },
@@ -34,24 +34,21 @@ const QuienesSomos = () => {
   return (
     <section className="relative">
       <SEOHead
-        title={`RevenantTravel | Agencia de Viajes y Turismo`}
-        description={`Conocé RevenantTravel: especialistas en crear experiencias de viaje únicas. Paquetes turísticos personalizados a los mejores destinos del mundo.`}
+        title={`Grupo Bits | Digitalización, Marketing y Comunicación`}
+        description={`Grupo Bits: especialistas en acompañar empresas y emprendedores en su proceso de digitalización. Integramos tecnología, marketing y comunicación para lograr crecimiento real y medible.`}
       />
 
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-white via-slate-50 to-white" />
 
-      <div className="max-w-6xl mx-auto px-6 py-20">
+      <div className="max-w-6xl mx-auto px-6 py-10">
         {/* Header */}
         <header className="text-center mb-16">
-          <span className="inline-flex items-center gap-2 text-[#dc834e] font-black tracking-widest bg-orange-50 px-4 py-1.5 rounded-full uppercase text-xs border border-orange-100 shadow-sm">
-            {company.name || "RevenantTravel"}
-          </span>
-          <h1 className="mt-6 text-5xl md:text-6xl font-black text-slate-900 leading-tight">
-            Experiencias que transforman <br /> <span className="text-[#dc834e] thea-amelia text-6xl md:text-7xl">tu vida</span>
+          <h1 className="mt-6 text-5xl md:text-5xl font-black text-slate-900 leading-tight">
+            Tu socio digital para el crecimiento
           </h1>
           <p className="mt-6 text-slate-600 text-xl max-w-3xl mx-auto font-light leading-relaxed">
-            Somos una agencia con años de experiencia en <strong>crear viajes inolvidables</strong>.
-            Nos apasiona diseñar experiencias únicas que combinen aventura, cultura y descanso.
+            Somos una consultora especializada en <strong>acompañar empresas y emprendedores</strong> en su proceso de digitalización.
+            Integramos tecnología, marketing y comunicación para lograr <strong>crecimiento real y medible</strong>.
           </p>
         </header>
 
@@ -60,56 +57,58 @@ const QuienesSomos = () => {
           {/* Columna texto */}
           <div className="md:col-span-3">
             <section className="bg-white rounded-3xl border border-slate-100 shadow-xl p-8 md:p-12 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-full -z-0 opacity-50"></div>
-
+              {/* Lanyard 3D Animation Background */}
+              <div className="absolute inset-0 -z-10 h-96 rounded-3xl overflow-hidden">
+                <Lanyard />
+              </div>
               <div className="relative z-10">
-                <h2 className="text-3xl font-black text-slate-900 mb-6">Nuestra Trayectoria</h2>
+                <h2 className="text-3xl font-black text-slate-900 mb-6">Nuestra Misión</h2>
                 <p className="text-slate-600 text-lg leading-relaxed mb-8">
-                  En <strong className="text-[#dc834e]">RevenantTravel</strong>, hemos evolucionado junto a las últimas tendencias en turismo experiencial.
-                  Planificamos cada detalle de tu viaje, seleccionando los mejores destinos, alojamientos exclusivos
-                  y experiencias auténticas que harán de tu aventura algo verdaderamente memorable.
+                  En <strong className="text-[#0891b2]">Grupo Bits</strong>, entendemos que la transformación digital no es solo tecnología.
+                  Es un proceso integral que combina estrategia, innovación y ejecución. Por eso acompañamos a cada empresa en su camino
+                  hacia la modernización, adaptando soluciones personalizadas que generan impacto real en sus resultados.
                 </p>
 
                 <div className="grid sm:grid-cols-2 gap-6">
-                  <div className="rounded-2xl border border-slate-100 p-6 bg-gradient-to-br from-orange-50 to-white hover:shadow-lg transition-all duration-300">
+                  <div className="rounded-2xl border border-slate-100 p-6 bg-gradient-to-br from-cyan-50 to-white hover:shadow-lg transition-all duration-300">
                     <h3 className="font-black text-slate-900 flex items-center gap-3 mb-4">
-                      <BuildingOfficeIcon className="w-6 h-6 text-[#dc834e]" />
-                      Nuestro Servicio
+                      <BuildingOfficeIcon className="w-6 h-6 text-[#0891b2]" />
+                      Nuestros Servicios
                     </h3>
                     <ul className="text-slate-600 space-y-2 font-medium">
-                      <li>• Asesoramiento personalizado</li>
-                      <li>• Red de destinos exclusivos</li>
-                      <li>• Paquetes a medida</li>
-                      <li>• Atención 24/7 durante tu viaje</li>
+                      <li>• Transformación digital integral</li>
+                      <li>• Estrategia de marketing digital</li>
+                      <li>• Desarrollo web y mobile</li>
+                      <li>• Consultoría tecnológica</li>
                     </ul>
                   </div>
 
-                  <div className="rounded-2xl border border-slate-100 p-6 bg-gradient-to-br from-amber-50 to-white hover:shadow-lg transition-all duration-300">
+                  <div className="rounded-2xl border border-slate-100 p-6 bg-gradient-to-br from-blue-50 to-white hover:shadow-lg transition-all duration-300">
                     <h3 className="font-black text-slate-900 flex items-center gap-3 mb-4">
-                      <CheckBadgeIcon className="w-6 h-6 text-[#dc834e]" />
-                      Garantía RevenantTravel
+                      <CheckBadgeIcon className="w-6 h-6 text-[#0891b2]" />
+                      Garantía Grupo Bits
                     </h3>
                     <ul className="text-slate-600 space-y-2 font-medium">
-                      <li>• Mejores tarifas garantizadas</li>
-                      <li>• Seguro de viaje incluido</li>
-                      <li>• Soporte en español 24/7</li>
-                      <li>• Flexibilidad en cambios</li>
+                      <li>• Resultados medibles</li>
+                      <li>• Equipo experto dedicado</li>
+                      <li>• Soporte continuo</li>
+                      <li>• ROI garantizado</li>
                     </ul>
                   </div>
                 </div>
 
                 <div className="mt-10 flex flex-wrap gap-4">
                   <a
-                    href={WhatsappHref({ message: "Hola, me gustaría recibir asesoramiento para planificar mi próximo viaje." })}
-                    className="bg-[#dc834e] hover:bg-[#c77542] text-white px-8 py-4 rounded-xl font-black text-lg shadow-lg shadow-[#dc834e]/20 transition-all active:scale-95 hover:scale-105"
+                    href={WhatsappHref({ message: "Hola, me gustaría recibir asesoramiento sobre cómo digitalizar mi empresa." })}
+                    className="bg-[#0891b2] hover:bg-[#0e7490] text-white px-8 py-4 rounded-xl font-black text-lg shadow-lg shadow-[#0891b2]/20 transition-all active:scale-95 hover:scale-105"
                     target="_blank"
                   >
-                    🌍 ARMAR MI VIAJE
+                    💡 TRANSFORMEMOS MI EMPRESA
                   </a>
 
                   <Link
                     to="/contacto"
-                    className="bg-white hover:bg-orange-50 text-slate-900 ring-2 ring-[#dc834e]/20 px-8 py-4 rounded-xl font-black text-lg transition-all"
+                    className="bg-white hover:bg-cyan-50 text-slate-900 ring-2 ring-[#0891b2]/20 px-8 py-4 rounded-xl font-black text-lg transition-all"
                   >
                     📞 CONTACTO
                   </Link>
@@ -134,12 +133,12 @@ const QuienesSomos = () => {
                 <div>
                   <span className="block text-slate-400 font-bold uppercase text-xs tracking-widest mb-1">Medios de Contacto</span>
                   <div className="flex flex-col gap-2 mt-2">
-                    <a href={`https://wa.me/${contact.whatsapp}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#dc834e] font-bold hover:underline">
+                    <a href={`https://wa.me/${contact.whatsapp}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[#0891b2] font-bold hover:underline">
                       <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                       WhatsApp: {contact.phone}
                     </a>
-                    <a href={`mailto:${contact.email}`} target="_blank" rel="noopener noreferrer" className="text-slate-600 font-medium hover:text-[#dc834e]">
-                      {contact.email || "info@revenanttravel.com"}
+                    <a href={`mailto:${contact.email}`} target="_blank" rel="noopener noreferrer" className="text-slate-600 font-medium hover:text-[#0891b2]">
+                      {contact.email || "info@grupobits.com"}
                     </a>
                   </div>
                 </div>
@@ -149,13 +148,13 @@ const QuienesSomos = () => {
               </div>
             </div>
 
-            <div className="rounded-3xl bg-gradient-to-br from-[#dc834e] to-amber-700 p-8 text-white relative overflow-hidden group shadow-xl">
+            <div className="rounded-3xl bg-gradient-to-br from-[#0891b2] to-cyan-700 p-8 text-white relative overflow-hidden group shadow-xl">
               <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:bg-white/20 transition-all"></div>
               <h3 className="text-xl font-black mb-4 flex items-center gap-2 relative z-10">
                 <span className="text-amber-200">✨</span> Nuestro Compromiso
               </h3>
               <p className="text-white/95 leading-relaxed font-medium relative z-10">
-                En RevenantTravel no solo vendemos paquetes, creamos <strong>experiencias transformadoras</strong>. Entendemos que cada viaje es una oportunidad única para crear recuerdos inolvidables.
+                En Grupo Bits no solo brindamos soluciones, construimos <strong>alianzas estratégicas</strong>. Entendemos que cada empresa tiene desafíos únicos, por eso ofrecemos estrategias personalizadas que generan <strong>crecimiento real y medible</strong>.
               </p>
             </div>
           </aside>
@@ -163,20 +162,20 @@ const QuienesSomos = () => {
 
         {/* CTA final */}
         <div className="mt-20">
-          <div className="bg-gradient-to-r from-orange-50 via-amber-50 to-white border border-[#dc834e]/20 p-8 rounded-[3rem] flex flex-col md:flex-row items-center justify-between gap-8 shadow-lg">
+          <div className="bg-gradient-to-r from-cyan-50 via-blue-50 to-white border border-[#0891b2]/20 p-8 rounded-[3rem] flex flex-col md:flex-row items-center justify-between gap-8 shadow-lg">
             <div className="text-center md:text-left">
               <h4 className="text-2xl font-black text-slate-900">
-                ¿Planeás un viaje grupal o corporativo?
+                ¿Buscás acelerar la transformación digital de tu empresa?
               </h4>
               <p className="text-slate-600 font-medium">
-                Consultanos por paquetes especiales para grupos, empresas e incentivos.
+                Consultanos sobre nuestros planes de digitalización, estrategia digital y consultoría tecnológica.
               </p>
             </div>
             <a
-              href={WhatsappHref({ message: "Hola, me interesa informaci\u00f3n sobre viajes grupales o corporativos." })}
-              className="bg-[#dc834e] text-white px-10 py-4 rounded-2xl font-black shadow-xl hover:scale-105 transition-transform whitespace-nowrap hover:bg-[#c77542]"
+              href={WhatsappHref({ message: "Hola, me interesa información sobre soluciones de transformación digital para mi empresa." })}
+              className="bg-[#0891b2] text-white px-10 py-4 rounded-2xl font-black shadow-xl hover:scale-105 transition-transform whitespace-nowrap hover:bg-[#0e7490]"
             >
-              VIAJES GRUPALES
+              SOLUTIONS DIGITAL
             </a>
           </div>
         </div>

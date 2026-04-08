@@ -21,7 +21,7 @@ const Testimonials = () => {
 
         // 2. Cargamos el script de TrustIndex
         const script = document.createElement('script');
-        script.src = 'https://cdn.trustindex.io/loader.js?c98894b64a7541282a96c1bca2b';
+        script.src = 'https://cdn.trustindex.io/loader.js?7b7af9d6023024804e8687b608c';
         script.defer = true;
         script.async = true;
 

@@ -3,12 +3,11 @@ import { Link, useParams } from "react-router-dom";
 import clienteAxios from "../../config/axios";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import Hyperspeed from "@/components/hyperspeed";
 import Lightbox from "yet-another-react-lightbox";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 import "yet-another-react-lightbox/styles.css";
 import SEOHead from "../Head/Head";
+import "../Posts/TiptapEditor.css";
 
 const ACCENT = "#003366";
 const isImageUrl = (url = "") =>
@@ -38,7 +37,7 @@ export default function ServiciosShow() {
         setServicio(data?.data ?? data ?? null);
       } catch (e) {
         console.error("Error cargando servicio:", e);
-        setErr("No se pudo cargar el detalle del Paquete.");
+        setErr("No se pudo cargar el detalle del servicio.");
       } finally {
         setLoading(false);
       }
@@ -92,7 +91,7 @@ export default function ServiciosShow() {
 
 
   const descripcion =
-    servicio?.description ?? servicio?.descripcion ?? "No hay descripcion detallada para este Paquete actualmente.";
+    servicio?.description ?? servicio?.descripcion ?? "No hay descripcion detallada para este servicio actualmente.";
 
   // 📹 Video del producto
   const rawVideo = servicio?.video || null;
@@ -112,7 +111,7 @@ export default function ServiciosShow() {
   const jsonLdSchema = {
     "@context": "https://schema.org",
     "@type": "MenuItem",
-    name: servicio?.title || "Paquete de la casa",
+    name: servicio?.title || "servicio de la casa",
     image: gallery,
     description: descripcion,
     offers: {
@@ -127,9 +126,9 @@ export default function ServiciosShow() {
     <section className="relative bg-white text-slate-900 overflow-hidden">
       <SEOHead
         priority="high"
-        title={`${servicio?.title || "Detalle"} | ${"Paquetes"} del Restaurante`}
-        description={`Conoce mas sobre ${servicio?.title || "nuestros Paquetes"}. Ingredientes frescos y preparacion artesanal.`}
-        keywords={`Paquetes, restaurante, menu, ${servicio?.title || "cocina"}`}
+        title={`${servicio?.title || "Detalle"} | ${"Servicios"} del Restaurante`}
+        description={`Conoce mas sobre ${servicio?.title || "nuestros Servicios"}. Ingredientes frescos y preparacion artesanal.`}
+        keywords={`Servicios, restaurante, menu, ${servicio?.title || "cocina"}`}
       />
 
       {/* Fondo decorativo */}
@@ -143,7 +142,7 @@ export default function ServiciosShow() {
         <nav className="text-xs font-black uppercase tracking-widest text-[#003366]/60 mb-6 flex items-center gap-3">
           <Link to="/" className="hover:text-[#003366] transition">Inicio</Link>
           <span className="w-1 h-1 bg-slate-300 rounded-full"></span>
-          <Link to="/servicios" className="hover:text-[#003366] transition">Paquetes</Link>
+          <Link to="/servicios" className="hover:text-[#003366] transition">Servicios</Link>
           {servicio?.title && (
             <>
               <span className="w-1 h-1 bg-slate-300 rounded-full"></span>
@@ -153,7 +152,7 @@ export default function ServiciosShow() {
         </nav>
 
         <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight leading-tight text-slate-900 mb-8">
-          {servicio?.title || (loading ? "Buscando en el catalogo..." : "Paquete no encontrado")}
+          {servicio?.title || (loading ? "Buscando en el catalogo..." : "servicio no encontrado")}
         </h1>
 
         {err && (
@@ -171,12 +170,13 @@ export default function ServiciosShow() {
             {/* Izquierda: Info básica */}
             <div className="relative z-10">
               <div className="inline-block bg-[#003366] text-white text-[10px] font-black tracking-[0.2em] px-4 py-2 rounded-lg mb-6 uppercase">
-                Detalles del Paquete
+                Detalles del servicio
               </div>
-              <h2 className="text-3xl font-black mb-8 text-slate-900 border-b border-slate-100 pb-4">Descripcion del Paquete</h2>
-              <p className="text-xl leading-relaxed text-slate-600 font-light mb-10 whitespace-pre-line">
-                {descripcion}
-              </p>
+              <h2 className="text-3xl font-black mb-8 text-slate-900 border-b border-slate-100 pb-4">Descripcion del servicio</h2>
+              <div
+                className="rich-content text-xl leading-relaxed text-slate-600 font-light mb-10"
+                dangerouslySetInnerHTML={{ __html: descripcion }}
+              />
 
               {tags.length > 0 && (
                 <div className="flex flex-wrap gap-3 mt-6">
@@ -195,32 +195,37 @@ export default function ServiciosShow() {
             {/* Derecha: Swiper */}
             <div className="w-full max-w-full overflow-hidden">
               <div className="bg-slate-50 p-2 sm:p-4 rounded-3xl md:rounded-[2.5rem] border border-slate-100 shadow-inner overflow-hidden w-full max-w-full">
-                <Swiper
-                  modules={[Navigation, Pagination, Autoplay]}
-                  navigation={true}
-                  pagination={{
-                    clickable: true,
-                    dynamicBullets: true
-                  }}
-                  autoplay={{ delay: 4000, disableOnInteraction: false }}
-                  spaceBetween={0}
-                  slidesPerView={1}
-                  centeredSlides={false}
-                  grabCursor={true}
-                  loop={gallery.length > 1}
-                  breakpoints={{
-                    640: {
-                      slidesPerView: 1,
-                      spaceBetween: 0,
-                    },
-                    1024: {
-                      slidesPerView: 1,
-                      spaceBetween: 0,
-                    }
-                  }}
-                  style={{ width: '100%', maxWidth: '100%' }}
-                  className="rounded-2xl md:rounded-3xl shadow-2xl galeria-swiper-main w-full"
-                >
+                <div className="relative bg-black rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl min-h-[400px]">
+                  {/* Hyperspeed Background */}
+                  <div className="absolute inset-0 w-full h-full -z-10">
+                    <Hyperspeed />
+                  </div>
+                  <Swiper
+                    modules={[Navigation, Pagination, Autoplay]}
+                    navigation={true}
+                    pagination={{
+                      clickable: true,
+                      dynamicBullets: true
+                    }}
+                    autoplay={{ delay: 4000, disableOnInteraction: false }}
+                    spaceBetween={0}
+                    slidesPerView={1}
+                    centeredSlides={false}
+                    grabCursor={true}
+                    loop={gallery.length > 1}
+                    breakpoints={{
+                      640: {
+                        slidesPerView: 1,
+                        spaceBetween: 0,
+                      },
+                      1024: {
+                        slidesPerView: 1,
+                        spaceBetween: 0,
+                      }
+                    }}
+                    style={{ width: '100%', maxWidth: '100%' }}
+                    className="rounded-2xl md:rounded-3xl shadow-2xl galeria-swiper-main w-full"
+                  >
                   {gallery.map((url, i) => (
                     <SwiperSlide key={i} className="rounded-2xl overflow-hidden w-full" style={{ width: '100%' }}>
                       <div
@@ -233,7 +238,7 @@ export default function ServiciosShow() {
                         {isImageUrl(url) ? (
                           <img
                             src={url}
-                            alt={`${servicio?.title || 'Paquete'} - Vista ${i + 1}`}
+                            alt={`${servicio?.title || 'servicio'} - Vista ${i + 1}`}
                             className="object-cover w-full h-full hover:scale-110 transition-transform duration-1000"
                             loading="lazy"
                           />
@@ -245,7 +250,8 @@ export default function ServiciosShow() {
                       </div>
                     </SwiperSlide>
                   ))}
-                </Swiper>
+                  </Swiper>
+                </div>
               </div>
             </div>
           </div>
@@ -268,7 +274,7 @@ export default function ServiciosShow() {
             {/* Features list */}
             {features.length > 0 && (
               <div>
-                <h3 className="text-3xl font-black text-[#003366] mb-10">Detalles del Paquete</h3>
+                <h3 className="text-3xl font-black text-[#003366] mb-10">Detalles del servicio</h3>
                 <div className="grid gap-6">
                   {features.map((f, i) => {
                     const title = typeof f === "string" ? f : f?.title;
@@ -299,14 +305,14 @@ export default function ServiciosShow() {
               <div className="rounded-[3rem] overflow-hidden shadow-2xl border-8 border-slate-50 ring-1 ring-slate-200">
                 <iframe
                   src={videoUrl}
-                  title="Video del Paquete"
+                  title="Video del servicio"
                   className="w-full aspect-video"
                   allowFullScreen
                 />
               </div>
             ) : (
               <div className="bg-[#003366] rounded-[3rem] p-12 text-white flex flex-col justify-center h-full shadow-2xl">
-                <h4 className="text-3xl font-black mb-6 tracking-tight">Reserva tu paquete</h4>
+                <h4 className="text-3xl font-black mb-6 tracking-tight">Reserva tu servicio</h4>
                 <p className="text-blue-100 text-lg mb-10 font-light leading-relaxed">
                   Nuestro equipo esta listo para ayudarte a elegir el mejor momento para tu visita.
                 </p>

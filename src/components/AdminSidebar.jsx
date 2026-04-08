@@ -24,7 +24,9 @@ import {
     MessageSquareQuote,
     ShieldUser,
     Coins,
-    ListCheck
+    ListCheck,
+    Image,
+    Briefcase,
 } from 'lucide-react';
 import UseAuth from '../hooks/useAuth';
 import useCont from '../hooks/useCont';
@@ -44,18 +46,20 @@ const AdminSidebar = () => {
 
     const menuItems = [
         { text: 'Sliders', icon: <GalleryThumbnails size={20} />, path: '/admin-dash/sliders' },
-        { text: 'Galería', icon: <GalleryThumbnails size={20} />, path: '/admin-dash/galeria' },
-        // { text: 'Calendario', icon: <Calendar size={20} />, path: '/admin-dash' },
-        // { text: 'Citas', icon: <ListCheck size={20} />, path: '/admin-dash/citas' },
-        { text: 'Usuarios', icon: <Users size={20} />, path: '/admin-dash/pacientes' },
-        // { text: 'Profesionales', icon: <ShieldUser size={20} />, path: '/admin-dash/doctores' },
-        { text: 'Finanzas', icon: <Coins size={20} />, path: '/admin-dash/finanzas' },
-        { text: 'Leads Contacto', icon: <Mail size={20} />, path: '/admin-dash/leads-contacto' },
-        { text: 'Testimonios', icon: <MessageSquareQuote size={20} />, path: '/admin-dash/testimonios' },
-        { text: 'Paquetes', icon: <FolderGit2 size={20} />, path: '/admin-dash/servicios' },
+        // { text: 'Galería', icon: <GalleryThumbnails size={20} />, path: '/admin-dash/galeria' },
+        { text: 'Servicios', icon: <FolderGit2 size={20} />, path: '/admin-dash/servicios' },
+        { text: 'Portafolio', icon: <Image size={20} />, path: '/admin-dash/portafolio' },
         { text: 'Posts', icon: <FileText size={20} />, path: '/admin-dash/posts' },
-        { text: 'Configuraciones', icon: <Settings size={20} />, path: '/admin-dash/configuraciones' },
+        // { text: 'Calendario', icon: <Calendar size={20} />, path: '/admin-dash' },
+        // { text: 'Finanzas', icon: <Coins size={20} />, path: '/admin-dash/finanzas' },
+        // { text: 'Citas', icon: <ListCheck size={20} />, path: '/admin-dash/citas' },
+        // { text: 'Profesionales', icon: <ShieldUser size={20} />, path: '/admin-dash/doctores' },
+        { text: 'Leads Contacto', icon: <Mail size={20} />, path: '/admin-dash/leads-contacto' },
+        { text: 'RRHH', icon: <Briefcase size={20} />, path: '/admin-dash/leads-rrhh' },
+        { text: 'Testimonios', icon: <MessageSquareQuote size={20} />, path: '/admin-dash/testimonios' },
         { text: 'Chatbot', icon: <Bot size={20} />, path: '/admin-dash/chatbot' },
+        { text: 'Usuarios', icon: <Users size={20} />, path: '/admin-dash/usuarios' },
+        { text: 'Configuraciones', icon: <Settings size={20} />, path: '/admin-dash/configuraciones' },
     ];
 
     return (
@@ -73,7 +77,10 @@ const AdminSidebar = () => {
                         width: open ? drawerWidth : collapsedWidth,
                         transition: 'width 0.3s ease',
                         overflowX: 'hidden',
+                        overflow: 'hidden',
                         boxShadow: 2,
+                        display: 'flex',
+                        flexDirection: 'column',
                     },
                 }}
             >
@@ -178,7 +185,7 @@ const AdminSidebar = () => {
                 )}
 
                 {/* Menú principal */}
-                <List sx={{ flexGrow: 1, py: 1 }}>
+                <List sx={{ flexGrow: 1, py: 1, overflow: 'auto', minHeight: 0 }}>
                     {menuItems.map((item) => {
                         const isActive = location.pathname === item.path;
 

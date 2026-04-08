@@ -45,7 +45,7 @@ const ArchivosUser = () => {
   const { data, error, isLoading } = useSWR(documentosKey, fetcher);
 
   const documentos = data?.data ?? [];
-  const paciente = data?.patient ?? null;
+  const usuario = data?.patient ?? null;
   const currentPage = data?.current_page ?? page;
   const lastPage = data?.last_page ?? 1;
 
@@ -152,13 +152,13 @@ const ArchivosUser = () => {
   // Estados de carga
   if (isLoading) return <p className="p-4 text-gray-600">Cargando documentos…</p>;
   if (error) return <p className="p-4 text-red-600">Error al cargar los documentos.</p>;
-  if (!paciente) return <p className="p-4 text-gray-600">No se encontró paciente asociado.</p>;
+  if (!usuario) return <p className="p-4 text-gray-600">No se encontró usuario asociado.</p>;
 
   return (
     <div className="p-4">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-semibold">
-          Documentos de {paciente.name}
+          Documentos de {usuario.name}
         </h2>
         <button
           onClick={() => setShowUploadModal(true)}
