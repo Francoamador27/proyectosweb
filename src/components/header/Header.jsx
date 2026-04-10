@@ -35,6 +35,7 @@ export default function Header() {
 
   const rightNav = [
     { label: "Quiénes Somos", href: "/quienes-somos" },
+    { label: "Performance", href: "/performance-marketing", badge: "MKT" },
     { label: "Blog", href: "/blog" },
     { label: "Contacto", href: "/contacto" },
     // { label: "Trabaja con Nosotros", href: "/trabaja-con-nosotros" },
@@ -86,7 +87,7 @@ export default function Header() {
                   <NavLink
                     to={item.href}
                     className={({ isActive }) => `
-                      relative px-5 py-2 text-[14px] font-bold tracking-tight uppercase transition-all duration-300
+                      relative px-5 py-2 text-[14px] font-bold tracking-tight uppercase transition-all duration-300 flex items-center gap-1.5
                       ${useDarkStyle
                         ? (isActive ? 'text-[#0891b2]' : 'text-slate-700 hover:text-[#0891b2]')
                         : (isActive ? 'text-white' : 'text-white/90 hover:text-white')
@@ -95,6 +96,11 @@ export default function Header() {
                     `}
                   >
                     {item.label}
+                    {item.badge && (
+                      <span className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded-full leading-none tracking-wide">
+                        {item.badge}
+                      </span>
+                    )}
                     <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#0891b2] transition-all duration-300 group-hover:w-3/4 ${({ isActive }) => isActive ? 'w-3/4' : ''}`}></span>
                   </NavLink>
                 </li>
@@ -129,7 +135,7 @@ export default function Header() {
                     to={item.href}
                     onClick={() => setMobileMenuOpen(false)}
                     className={({ isActive }) => `
-                      flex items-center px-6 py-4 rounded-2xl text-base font-bold tracking-tight transition-all
+                      flex items-center gap-2 px-6 py-4 rounded-2xl text-base font-bold tracking-tight transition-all
                       ${isActive
                         ? 'bg-[#0891b2]/10 text-[#0891b2] translate-x-2'
                         : 'text-slate-700 hover:bg-slate-50'
@@ -137,6 +143,11 @@ export default function Header() {
                     `}
                   >
                     {item.label}
+                    {item.badge && (
+                      <span className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded-full leading-none">
+                        {item.badge}
+                      </span>
+                    )}
                   </NavLink>
                 </li>
               ))}

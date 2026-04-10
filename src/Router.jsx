@@ -57,6 +57,7 @@ const LeadsRRHH = lazy(() => import("./components/LeadsRRHH"));
 const TrabajaConNosotros = lazy(() => import("./components/TrabajaConNosotros"));
 const BlogList = lazy(() => import("./components/Blog/BlogList"));
 const BlogDetail = lazy(() => import("./components/Blog/BlogDetail"));
+const PerformanceMarketing = lazy(() => import("./views/PerformanceMarketing"));
 
 const suspense = (node) => (
   <Suspense fallback={<div style={{ minHeight: 200 }} />}>
@@ -83,6 +84,7 @@ const router = createBrowserRouter([
       { path: "/precios", element: suspense(<Precios />) },
       { path: "/portafolio", element: suspense(<Portafolio />) },
       { path: "/portafolio/:id", element: suspense(<PortafolioDetail />) },
+      { path: "/performance-marketing", element: suspense(<PerformanceMarketing />) },
       { path: "/galeria", element: suspense(<Ejemplos />) },
       { path: "/finalizar-compra", element: suspense(<CheckOut />) },
       { path: "auth/login", element: suspense(<Login />) },

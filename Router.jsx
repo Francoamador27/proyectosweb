@@ -6,17 +6,28 @@ import Login from "./views/Login";
 import Register from "./views/Register";
 import Product from "./layout/Product";
 import ResetPassword from "./src/views/ResetPassword";
+import PerformanceMarketing from "./src/views/PerformanceMarketing";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <Layout />
-     
+
     },
     {
         path: "/product",
         element: <Product />
-     
+
+    },
+    {
+        path: "/performance-marketing",
+        element: <Layout />,
+        children: [
+            {
+                index: true,
+                element: <PerformanceMarketing />,
+            }
+        ]
     },
     {
         path: "/auth",
@@ -29,12 +40,12 @@ const router = createBrowserRouter([
             path: '/auth/register',
             element: <Register />,
         },
-    
+
         {
             path: '/auth/reset-password',
             element: <ResetPassword />,
         },
-    
+
         ]
     },
     {
