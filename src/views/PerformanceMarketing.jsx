@@ -12,18 +12,49 @@ import {
   Legend,
 } from "chart.js";
 import {
-  BarChart3, Target, TrendingUp, LineChart, FileText,
-  CheckCircle2, ArrowRight, Phone, Megaphone, Search,
-  Users, Mail, ChevronDown, ChevronUp, Zap, Eye, Clock,
-  Award, CalendarDays, PieChart, RefreshCcw, ShoppingCart,
-  Package, MessageCircle, CheckCheck, Send, Bell, Star,
+  BarChart3,
+  Target,
+  TrendingUp,
+  LineChart,
+  FileText,
+  CheckCircle2,
+  ArrowRight,
+  Phone,
+  Megaphone,
+  Search,
+  Users,
+  Mail,
+  ChevronDown,
+  ChevronUp,
+  Zap,
+  Eye,
+  Clock,
+  Award,
+  CalendarDays,
+  PieChart,
+  RefreshCcw,
+  ShoppingCart,
+  Package,
+  MessageCircle,
+  CheckCheck,
+  Send,
+  Bell,
+  Star,
 } from "lucide-react";
 import SEOHead from "../components/Head/Head";
 import useCont from "../hooks/useCont";
 import WhatsappHref from "../utils/WhatsappUrl";
 
 // ─── Chart.js registration ────────────────────────────────────────────────────
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Filler, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Filler,
+  Legend,
+);
 
 // ─── Static data ──────────────────────────────────────────────────────────────
 
@@ -94,29 +125,91 @@ const SERVICES = [
 ];
 
 const PLATFORMS = [
-  { name: "Meta Ads", icon: <Megaphone className="w-5 h-5" />, color: "bg-blue-100 text-blue-700" },
-  { name: "Google Ads", icon: <Search className="w-5 h-5" />, color: "bg-red-100 text-red-700" },
-  { name: "TikTok Ads", icon: <Zap className="w-5 h-5" />, color: "bg-slate-900 text-white" },
-  { name: "LinkedIn Ads", icon: <Users className="w-5 h-5" />, color: "bg-blue-700 text-white" },
-  { name: "Email Marketing", icon: <Mail className="w-5 h-5" />, color: "bg-emerald-100 text-emerald-700" },
-  { name: "Google Analytics", icon: <LineChart className="w-5 h-5" />, color: "bg-orange-100 text-orange-700" },
+  {
+    name: "Meta Ads",
+    icon: <Megaphone className="w-5 h-5" />,
+    color: "bg-blue-100 text-blue-700",
+  },
+  {
+    name: "Google Ads",
+    icon: <Search className="w-5 h-5" />,
+    color: "bg-red-100 text-red-700",
+  },
+  {
+    name: "TikTok Ads",
+    icon: <Zap className="w-5 h-5" />,
+    color: "bg-slate-900 text-white",
+  },
+  {
+    name: "LinkedIn Ads",
+    icon: <Users className="w-5 h-5" />,
+    color: "bg-blue-700 text-white",
+  },
+  {
+    name: "Email Marketing",
+    icon: <Mail className="w-5 h-5" />,
+    color: "bg-emerald-100 text-emerald-700",
+  },
+  {
+    name: "Google Analytics",
+    icon: <LineChart className="w-5 h-5" />,
+    color: "bg-orange-100 text-orange-700",
+  },
 ];
 
 const PROCESS = [
-  { step: "01", title: "Brief y Diagnóstico", desc: "Relevamos tu negocio, objetivos, histórico de campañas y presupuesto disponible." },
-  { step: "02", title: "Estrategia y Planificación", desc: "Diseñamos la estrategia completa: canales, audiencias, mensajes y estructura de campañas." },
-  { step: "03", title: "Lanzamiento", desc: "Configuramos y publicamos las campañas en todas las plataformas acordadas." },
-  { step: "04", title: "Seguimiento Activo", desc: "Monitoreamos resultados diariamente y optimizamos en tiempo real." },
-  { step: "05", title: "Reporte Mensual", desc: "Presentamos los resultados del mes, aprendizajes y plan de acción para el siguiente período." },
+  {
+    step: "01",
+    title: "Brief y Diagnóstico",
+    desc: "Relevamos tu negocio, objetivos, histórico de campañas y presupuesto disponible.",
+  },
+  {
+    step: "02",
+    title: "Estrategia y Planificación",
+    desc: "Diseñamos la estrategia completa: canales, audiencias, mensajes y estructura de campañas.",
+  },
+  {
+    step: "03",
+    title: "Lanzamiento",
+    desc: "Configuramos y publicamos las campañas en todas las plataformas acordadas.",
+  },
+  {
+    step: "04",
+    title: "Seguimiento Activo",
+    desc: "Monitoreamos resultados diariamente y optimizamos en tiempo real.",
+  },
+  {
+    step: "05",
+    title: "Reporte Mensual",
+    desc: "Presentamos los resultados del mes, aprendizajes y plan de acción para el siguiente período.",
+  },
 ];
 
 const REPORT_ITEMS = [
-  { icon: <TrendingUp className="w-5 h-5 text-cyan-600" />, label: "Inversión total y desglose por plataforma" },
-  { icon: <Target className="w-5 h-5 text-cyan-600" />, label: "Impresiones, clics, CTR y CPC promedio" },
-  { icon: <Users className="w-5 h-5 text-cyan-600" />, label: "Leads o ventas generadas y costo por resultado" },
-  { icon: <BarChart3 className="w-5 h-5 text-cyan-600" />, label: "ROAS y ROI de cada campaña activa" },
-  { icon: <PieChart className="w-5 h-5 text-cyan-600" />, label: "Comparativa vs mes anterior y vs objetivos" },
-  { icon: <RefreshCcw className="w-5 h-5 text-cyan-600" />, label: "Acciones realizadas y propuesta del próximo mes" },
+  {
+    icon: <TrendingUp className="w-5 h-5 text-cyan-600" />,
+    label: "Inversión total y desglose por plataforma",
+  },
+  {
+    icon: <Target className="w-5 h-5 text-cyan-600" />,
+    label: "Impresiones, clics, CTR y CPC promedio",
+  },
+  {
+    icon: <Users className="w-5 h-5 text-cyan-600" />,
+    label: "Leads o ventas generadas y costo por resultado",
+  },
+  {
+    icon: <BarChart3 className="w-5 h-5 text-cyan-600" />,
+    label: "ROAS y ROI de cada campaña activa",
+  },
+  {
+    icon: <PieChart className="w-5 h-5 text-cyan-600" />,
+    label: "Comparativa vs mes anterior y vs objetivos",
+  },
+  {
+    icon: <RefreshCcw className="w-5 h-5 text-cyan-600" />,
+    label: "Acciones realizadas y propuesta del próximo mes",
+  },
 ];
 
 const FAQS = [
@@ -126,7 +219,7 @@ const FAQS = [
   },
   {
     q: "¿Qué presupuesto mínimo necesito?",
-    a: "Trabajamos con presupuestos desde ARS $100.000 o USD $100 mensuales en pauta. Siempre recomendamos un nivel de inversión que permita obtener datos estadísticamente relevantes.",
+    a: "Trabajamos con presupuestos a medida según el rubro de tu empresa. Siempre recomendamos un nivel de inversión que permita obtener datos estadísticamente relevantes.",
   },
   {
     q: "¿Qué incluye el management mensual?",
@@ -143,29 +236,93 @@ const FAQS = [
 ];
 
 const WHY_US = [
-  { icon: <Award className="w-6 h-6" />, title: "Estrategia basada en datos", desc: "Cada decisión está respaldada por métricas reales, no por intuición." },
-  { icon: <Clock className="w-6 h-6" />, title: "Comunicación fluida", desc: "Reportes claros, disponibilidad y acceso a tus dashboards en tiempo real." },
-  { icon: <Target className="w-6 h-6" />, title: "Foco en resultados", desc: "Medimos lo que realmente importa para tu negocio: leads, ventas y ROI." },
-  { icon: <RefreshCcw className="w-6 h-6" />, title: "Optimización continua", desc: "No lanzamos y nos olvidamos. Iteramos y mejoramos durante toda la campaña." },
+  {
+    icon: <Award className="w-6 h-6" />,
+    title: "Estrategia basada en datos",
+    desc: "Cada decisión está respaldada por métricas reales, no por intuición.",
+  },
+  {
+    icon: <Clock className="w-6 h-6" />,
+    title: "Comunicación fluida",
+    desc: "Reportes claros, disponibilidad y acceso a tus dashboards en tiempo real.",
+  },
+  {
+    icon: <Target className="w-6 h-6" />,
+    title: "Foco en resultados",
+    desc: "Medimos lo que realmente importa para tu negocio: leads, ventas y ROI.",
+  },
+  {
+    icon: <RefreshCcw className="w-6 h-6" />,
+    title: "Optimización continua",
+    desc: "No lanzamos y nos olvidamos. Iteramos y mejoramos durante toda la campaña.",
+  },
 ];
 
 // ─── WhatsApp chat messages ───────────────────────────────────────────────────
 const CHAT_MESSAGES = [
   { from: "lead", text: "¡Hola! Vi su anuncio en Instagram 👋", time: "10:42" },
-  { from: "lead", text: "Me interesa la promo de las zapatillas", time: "10:43" },
-  { from: "agent", text: "¡Hola! Con gusto te ayudamos. ¿Cuál es tu talle? 👟", time: "10:43" },
+  {
+    from: "lead",
+    text: "Me interesa la promo de las zapatillas",
+    time: "10:43",
+  },
+  {
+    from: "agent",
+    text: "¡Hola! Con gusto te ayudamos. ¿Cuál es tu talle? 👟",
+    time: "10:43",
+  },
   { from: "lead", text: "Talle 42, las blancas con suela goma", time: "10:44" },
-  { from: "agent", text: "Tenemos stock! Las enviamos en 24hs 🚀 ¿Te paso el link de pago?", time: "10:44" },
-  { from: "lead", text: "Sí! Ya tengo la tarjeta lista 😄 ¡Hacelo!", time: "10:45" },
-  { from: "agent", text: "¡Listo! Pedido tomado ✅ En breve recibís la confirmación.", time: "10:45" },
+  {
+    from: "agent",
+    text: "Tenemos stock! Las enviamos en 24hs 🚀 ¿Te paso el link de pago?",
+    time: "10:44",
+  },
+  {
+    from: "lead",
+    text: "Sí! Ya tengo la tarjeta lista 😄 ¡Hacelo!",
+    time: "10:45",
+  },
+  {
+    from: "agent",
+    text: "¡Listo! Pedido tomado ✅ En breve recibís la confirmación.",
+    time: "10:45",
+  },
 ];
 
 // ─── Cart products ────────────────────────────────────────────────────────────
 const PRODUCTS = [
-  { id: 1, name: "Zapatillas Running", price: "$45.000", emoji: "👟", category: "Calzado", stars: 5 },
-  { id: 2, name: "Remera Oversize", price: "$12.500", emoji: "👕", category: "Indumentaria", stars: 4 },
-  { id: 3, name: "Mochila Urban", price: "$28.000", emoji: "🎒", category: "Accesorios", stars: 5 },
-  { id: 4, name: "Auriculares BT", price: "$35.000", emoji: "🎧", category: "Tecnología", stars: 5 },
+  {
+    id: 1,
+    name: "Zapatillas Running",
+    price: "$45.000",
+    emoji: "👟",
+    category: "Calzado",
+    stars: 5,
+  },
+  {
+    id: 2,
+    name: "Remera Oversize",
+    price: "$12.500",
+    emoji: "👕",
+    category: "Indumentaria",
+    stars: 4,
+  },
+  {
+    id: 3,
+    name: "Mochila Urban",
+    price: "$28.000",
+    emoji: "🎒",
+    category: "Accesorios",
+    stars: 5,
+  },
+  {
+    id: 4,
+    name: "Auriculares BT",
+    price: "$35.000",
+    emoji: "🎧",
+    category: "Tecnología",
+    stars: 5,
+  },
 ];
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -175,7 +332,9 @@ function FaqItem({ q, a }) {
   return (
     <div
       className={`border rounded-2xl transition-all duration-300 overflow-hidden ${
-        open ? "border-cyan-200 shadow-md shadow-cyan-50" : "border-slate-200 hover:border-slate-300"
+        open
+          ? "border-cyan-200 shadow-md shadow-cyan-50"
+          : "border-slate-200 hover:border-slate-300"
       }`}
     >
       <button
@@ -183,7 +342,9 @@ function FaqItem({ q, a }) {
         onClick={() => setOpen(!open)}
         aria-expanded={open}
       >
-        <span className="font-semibold text-slate-800 text-[15px] leading-snug">{q}</span>
+        <span className="font-semibold text-slate-800 text-[15px] leading-snug">
+          {q}
+        </span>
         {open ? (
           <ChevronUp className="w-5 h-5 text-cyan-600 flex-shrink-0" />
         ) : (
@@ -307,7 +468,9 @@ function ConversionChart() {
             className="bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-center"
           >
             <p className={`text-2xl font-black ${k.color}`}>{k.value}</p>
-            <p className="text-slate-400 text-xs uppercase tracking-widest font-semibold mt-1">{k.label}</p>
+            <p className="text-slate-400 text-xs uppercase tracking-widest font-semibold mt-1">
+              {k.label}
+            </p>
           </motion.div>
         ))}
       </div>
@@ -321,11 +484,17 @@ function ConversionChart() {
       >
         <div className="flex items-center justify-between mb-6">
           <div>
-            <p className="text-white font-black text-lg">Evolución de Conversiones</p>
-            <p className="text-slate-400 text-sm">Ene — Jul · Comparativa de rendimiento</p>
+            <p className="text-white font-black text-lg">
+              Evolución de Conversiones
+            </p>
+            <p className="text-slate-400 text-sm">
+              Ene — Jul · Comparativa de rendimiento
+            </p>
           </div>
           <div className="bg-emerald-500/20 border border-emerald-500/30 px-3 py-1.5 rounded-full">
-            <span className="text-emerald-400 text-xs font-black">↑ +336 conv.</span>
+            <span className="text-emerald-400 text-xs font-black">
+              ↑ +336 conv.
+            </span>
           </div>
         </div>
         {showChart ? (
@@ -417,7 +586,9 @@ function WhatsAppChat() {
               GB
             </div>
             <div>
-              <p className="text-white font-semibold text-sm leading-none">Grupo Bits</p>
+              <p className="text-white font-semibold text-sm leading-none">
+                Grupo Bits
+              </p>
               <p className="text-[#8696a0] text-xs mt-0.5">
                 {typing ? (
                   <span className="text-[#00a884]">escribiendo...</span>
@@ -474,7 +645,9 @@ function WhatsAppChat() {
                 >
                   {msg.text}
                   <div className="flex items-center justify-end gap-1 mt-1">
-                    <span className="text-[10px] text-[#8696a0]">{msg.time}</span>
+                    <span className="text-[10px] text-[#8696a0]">
+                      {msg.time}
+                    </span>
                     {msg.from === "agent" && (
                       <CheckCheck className="w-3.5 h-3.5 text-[#53bdeb]" />
                     )}
@@ -519,7 +692,9 @@ function WhatsAppChat() {
         {/* Input bar */}
         <div className="bg-[#202c33] px-3 py-3 flex items-center gap-2">
           <div className="flex-1 bg-[#2a3942] rounded-full px-4 py-2 flex items-center">
-            <span className="text-[#8696a0] text-sm">Escribe un mensaje...</span>
+            <span className="text-[#8696a0] text-sm">
+              Escribe un mensaje...
+            </span>
           </div>
           <div className="w-9 h-9 bg-[#00a884] rounded-full flex items-center justify-center flex-shrink-0">
             <Send className="w-4 h-4 text-white" />
@@ -552,7 +727,12 @@ function CartAnimation() {
 
     const toastId = Date.now() + Math.random();
     setToasts((t) => [
-      { id: toastId, name: product.name, price: product.price, emoji: product.emoji },
+      {
+        id: toastId,
+        name: product.name,
+        price: product.price,
+        emoji: product.emoji,
+      },
       ...t.slice(0, 2),
     ]);
     setTimeout(() => setToasts((t) => t.filter((x) => x.id !== toastId)), 2800);
@@ -560,7 +740,7 @@ function CartAnimation() {
     // Reset "added" state after 2s to allow re-adding
     setTimeout(
       () => setAddedIds((ids) => ids.filter((id) => id !== product.id)),
-      2000
+      2000,
     );
   }
 
@@ -589,7 +769,9 @@ function CartAnimation() {
       <div className="flex items-center justify-between mb-5">
         <div>
           <p className="text-white font-black text-base">Tienda en vivo</p>
-          <p className="text-slate-400 text-xs">Ventas generadas por tus anuncios</p>
+          <p className="text-slate-400 text-xs">
+            Ventas generadas por tus anuncios
+          </p>
         </div>
         <motion.div
           animate={cartBounce ? { scale: [1, 1.35, 0.9, 1.1, 1] } : {}}
@@ -631,8 +813,12 @@ function CartAnimation() {
                 {toast.emoji}
               </div>
               <div>
-                <p className="text-white text-xs font-black leading-none">¡Venta!</p>
-                <p className="text-slate-400 text-[11px] mt-0.5">{toast.name} · {toast.price}</p>
+                <p className="text-white text-xs font-black leading-none">
+                  ¡Venta!
+                </p>
+                <p className="text-slate-400 text-[11px] mt-0.5">
+                  {toast.name} · {toast.price}
+                </p>
               </div>
               <Bell className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
             </motion.div>
@@ -657,17 +843,26 @@ function CartAnimation() {
 
               {/* Info */}
               <div className="flex-1">
-                <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">{product.category}</p>
-                <p className="text-white text-sm font-bold leading-tight mt-0.5">{product.name}</p>
+                <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">
+                  {product.category}
+                </p>
+                <p className="text-white text-sm font-bold leading-tight mt-0.5">
+                  {product.name}
+                </p>
                 <div className="flex items-center gap-0.5 mt-1">
                   {Array.from({ length: product.stars }).map((_, i) => (
-                    <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
+                    <Star
+                      key={i}
+                      className="w-3 h-3 fill-amber-400 text-amber-400"
+                    />
                   ))}
                 </div>
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-cyan-400 font-black text-sm">{product.price}</span>
+                <span className="text-cyan-400 font-black text-sm">
+                  {product.price}
+                </span>
                 <motion.button
                   onClick={() => addToCart(product)}
                   disabled={isAdded}
@@ -693,11 +888,15 @@ function CartAnimation() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
           </span>
-          <span className="text-slate-400 text-xs font-semibold">Ventas en tiempo real</span>
+          <span className="text-slate-400 text-xs font-semibold">
+            Ventas en tiempo real
+          </span>
         </div>
         <div className="flex items-center gap-1.5">
           <Package className="w-3.5 h-3.5 text-cyan-400" />
-          <span className="text-cyan-400 text-sm font-black">{cartCount} vendidos hoy</span>
+          <span className="text-cyan-400 text-sm font-black">
+            {cartCount} vendidos hoy
+          </span>
         </div>
       </div>
     </div>
@@ -721,10 +920,17 @@ const PerformanceMarketing = () => {
     description:
       "Servicios de performance marketing: planificación de campañas, seguimiento, análisis de datos y reportes mensuales detallados para maximizar tu ROI.",
     areaServed: { "@type": "Country", name: "Argentina" },
-    serviceType: ["Performance Marketing", "Gestión de Campañas Publicitarias", "Meta Ads", "Google Ads", "Analítica Digital"],
+    serviceType: [
+      "Performance Marketing",
+      "Gestión de Campañas Publicitarias",
+      "Meta Ads",
+      "Google Ads",
+      "Analítica Digital",
+    ],
     offers: {
       "@type": "Offer",
-      description: "Planificación, gestión y optimización de campañas de performance con reporte mensual incluido.",
+      description:
+        "Planificación, gestión y optimización de campañas de performance con reporte mensual incluido.",
     },
   };
 
@@ -738,8 +944,10 @@ const PerformanceMarketing = () => {
         canonical={`${company?.domain || ""}/performance-marketing`}
         jsonLd={jsonLd}
         og={{
-          title: "Performance Marketing — Campañas que generan resultados reales",
-          description: "Planificación, seguimiento, análisis y reportes mensuales de tus campañas publicitarias. Maximizamos tu ROI con datos reales.",
+          title:
+            "Performance Marketing — Campañas que generan resultados reales",
+          description:
+            "Planificación, seguimiento, análisis y reportes mensuales de tus campañas publicitarias. Maximizamos tu ROI con datos reales.",
           type: "website",
         }}
       />
@@ -777,15 +985,21 @@ const PerformanceMarketing = () => {
           </h1>
 
           <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto mb-10 leading-relaxed font-light">
-            Planificamos, ejecutamos y optimizamos tus campañas publicitarias en todas las plataformas.
+            Planificamos, ejecutamos y optimizamos tus campañas publicitarias en
+            todas las plataformas.
             <span className="font-semibold text-white">
-              {" "}Cada decisión respaldada por datos. Cada peso invertido, justificado.
+              {" "}
+              Cada decisión respaldada por datos. Cada peso invertido,
+              justificado.
             </span>
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href={WhatsappHref({ message: "Hola, me interesa conocer más sobre sus servicios de Performance Marketing." })}
+              href={WhatsappHref({
+                message:
+                  "Hola, me interesa conocer más sobre sus servicios de Performance Marketing.",
+              })}
               className="group bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white px-10 py-4 rounded-2xl font-black text-lg shadow-xl hover:shadow-cyan-500/25 transition-all duration-300 flex items-center justify-center gap-3 active:scale-95"
             >
               <Phone className="w-5 h-5 group-hover:rotate-12 transition-transform" />
@@ -803,9 +1017,16 @@ const PerformanceMarketing = () => {
 
           <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6">
             {STATS.map((s, i) => (
-              <div key={i} className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-5 text-center">
-                <p className="text-3xl md:text-4xl font-black text-cyan-400 mb-1">{s.value}</p>
-                <p className="text-xs text-slate-400 uppercase tracking-widest font-semibold">{s.label}</p>
+              <div
+                key={i}
+                className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-5 text-center"
+              >
+                <p className="text-3xl md:text-4xl font-black text-cyan-400 mb-1">
+                  {s.value}
+                </p>
+                <p className="text-xs text-slate-400 uppercase tracking-widest font-semibold">
+                  {s.label}
+                </p>
               </div>
             ))}
           </div>
@@ -820,7 +1041,10 @@ const PerformanceMarketing = () => {
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             {PLATFORMS.map((p, i) => (
-              <div key={i} className={`${p.color} flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-sm transition-transform hover:-translate-y-0.5`}>
+              <div
+                key={i}
+                className={`${p.color} flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-sm transition-transform hover:-translate-y-0.5`}
+              >
                 {p.icon}
                 {p.name}
               </div>
@@ -830,7 +1054,10 @@ const PerformanceMarketing = () => {
       </section>
 
       {/* ── EN ACCIÓN (Animaciones) ────────────────────────────────────────── */}
-      <section id="en-accion" className="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 py-28 relative overflow-hidden">
+      <section
+        id="en-accion"
+        className="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 py-28 relative overflow-hidden"
+      >
         {/* Background grid */}
         <div
           className="absolute inset-0 pointer-events-none"
@@ -847,14 +1074,17 @@ const PerformanceMarketing = () => {
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/15 mb-6">
               <TrendingUp className="w-4 h-4 text-cyan-400" />
-              <span className="text-xs font-black text-white uppercase tracking-widest">Resultados en acción</span>
+              <span className="text-xs font-black text-white uppercase tracking-widest">
+                Resultados en acción
+              </span>
             </div>
             <h2 className="text-4xl md:text-5xl font-black text-white leading-tight mb-5">
               Mirá qué pasa cuando{" "}
               <span className="text-cyan-400">tus campañas funcionan</span>
             </h2>
             <p className="text-slate-400 text-lg max-w-2xl mx-auto font-light">
-              Datos reales, leads entrantes y ventas en tiempo real. Esto es performance marketing en funcionamiento.
+              Datos reales, leads entrantes y ventas en tiempo real. Esto es
+              performance marketing en funcionamiento.
             </p>
           </div>
 
@@ -871,7 +1101,9 @@ const PerformanceMarketing = () => {
                 </div>
                 <div>
                   <p className="text-white font-black">Consultas entrantes</p>
-                  <p className="text-slate-400 text-xs">Leads generados por tus anuncios</p>
+                  <p className="text-slate-400 text-xs">
+                    Leads generados por tus anuncios
+                  </p>
                 </div>
               </div>
               <WhatsAppChat />
@@ -885,7 +1117,9 @@ const PerformanceMarketing = () => {
                 </div>
                 <div>
                   <p className="text-white font-black">Ventas en tiempo real</p>
-                  <p className="text-slate-400 text-xs">E-commerce impulsado por pauta</p>
+                  <p className="text-slate-400 text-xs">
+                    E-commerce impulsado por pauta
+                  </p>
                 </div>
               </div>
               <CartAnimation />
@@ -900,7 +1134,9 @@ const PerformanceMarketing = () => {
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 bg-cyan-100 px-4 py-2 rounded-full mb-5">
               <Target className="w-4 h-4 text-cyan-700" />
-              <span className="text-xs font-black text-cyan-700 uppercase tracking-widest">Nuestros servicios</span>
+              <span className="text-xs font-black text-cyan-700 uppercase tracking-widest">
+                Nuestros servicios
+              </span>
             </div>
             <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-5 leading-tight">
               Todo lo que necesitás para{" "}
@@ -909,23 +1145,36 @@ const PerformanceMarketing = () => {
               </span>
             </h2>
             <p className="text-slate-600 text-lg max-w-2xl mx-auto font-light leading-relaxed">
-              No solo lanzamos campañas. Acompañamos cada etapa del proceso con foco en resultados medibles.
+              No solo lanzamos campañas. Acompañamos cada etapa del proceso con
+              foco en resultados medibles.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
             {SERVICES.map((s, i) => (
-              <div key={i} className={`bg-white rounded-3xl border ${s.border} shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden group`}>
+              <div
+                key={i}
+                className={`bg-white rounded-3xl border ${s.border} shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden group`}
+              >
                 <div className={`h-1.5 w-full bg-gradient-to-r ${s.accent}`} />
                 <div className="p-8">
-                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-5 bg-gradient-to-br ${s.accent} text-white group-hover:scale-110 transition-transform duration-300`}>
+                  <div
+                    className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-5 bg-gradient-to-br ${s.accent} text-white group-hover:scale-110 transition-transform duration-300`}
+                  >
                     {s.icon}
                   </div>
-                  <h3 className="text-xl font-black text-slate-900 mb-3">{s.title}</h3>
-                  <p className="text-slate-600 leading-relaxed mb-5">{s.description}</p>
+                  <h3 className="text-xl font-black text-slate-900 mb-3">
+                    {s.title}
+                  </h3>
+                  <p className="text-slate-600 leading-relaxed mb-5">
+                    {s.description}
+                  </p>
                   <ul className="space-y-2.5">
                     {s.items.map((item, j) => (
-                      <li key={j} className="flex items-start gap-3 text-slate-700 text-sm">
+                      <li
+                        key={j}
+                        className="flex items-start gap-3 text-slate-700 text-sm"
+                      >
                         <CheckCircle2 className="w-4 h-4 text-cyan-500 flex-shrink-0 mt-0.5" />
                         {item}
                       </li>
@@ -944,13 +1193,16 @@ const PerformanceMarketing = () => {
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 bg-slate-100 px-4 py-2 rounded-full mb-5">
               <RefreshCcw className="w-4 h-4 text-slate-600" />
-              <span className="text-xs font-black text-slate-600 uppercase tracking-widest">Metodología</span>
+              <span className="text-xs font-black text-slate-600 uppercase tracking-widest">
+                Metodología
+              </span>
             </div>
             <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-5 leading-tight">
               Así trabajamos con vos
             </h2>
             <p className="text-slate-600 text-lg max-w-xl mx-auto font-light">
-              Un proceso claro, transparente y orientado a resultados desde el primer día.
+              Un proceso claro, transparente y orientado a resultados desde el
+              primer día.
             </p>
           </div>
 
@@ -958,12 +1210,19 @@ const PerformanceMarketing = () => {
             <div className="hidden md:block absolute top-10 left-[10%] right-[10%] h-0.5 bg-gradient-to-r from-cyan-200 via-blue-200 to-cyan-200" />
             <div className="grid md:grid-cols-5 gap-8">
               {PROCESS.map((p, i) => (
-                <div key={i} className="flex flex-col items-center text-center relative">
+                <div
+                  key={i}
+                  className="flex flex-col items-center text-center relative"
+                >
                   <div className="w-20 h-20 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-cyan-500/20 mb-5 z-10 relative">
                     {p.step}
                   </div>
-                  <h4 className="font-black text-slate-900 mb-2 text-[15px]">{p.title}</h4>
-                  <p className="text-slate-500 text-sm leading-relaxed">{p.desc}</p>
+                  <h4 className="font-black text-slate-900 mb-2 text-[15px]">
+                    {p.title}
+                  </h4>
+                  <p className="text-slate-500 text-sm leading-relaxed">
+                    {p.desc}
+                  </p>
                 </div>
               ))}
             </div>
@@ -981,17 +1240,24 @@ const PerformanceMarketing = () => {
             <div>
               <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/15 mb-7">
                 <FileText className="w-4 h-4 text-cyan-400" />
-                <span className="text-xs font-black text-white uppercase tracking-widest">Reporte mensual</span>
+                <span className="text-xs font-black text-white uppercase tracking-widest">
+                  Reporte mensual
+                </span>
               </div>
               <h2 className="text-4xl md:text-5xl font-black text-white leading-tight mb-6">
                 Cada mes sabés exactamente
                 <span className="text-cyan-400"> cómo van tus campañas</span>
               </h2>
               <p className="text-slate-300 text-lg leading-relaxed mb-8 font-light">
-                Nada de cifras crípticas ni dashboards confusos. Te enviamos un informe claro, en lenguaje humano, con todo lo que pasó en el mes y lo que vamos a hacer el próximo.
+                Nada de cifras crípticas ni dashboards confusos. Te enviamos un
+                informe claro, en lenguaje humano, con todo lo que pasó en el
+                mes y lo que vamos a hacer el próximo.
               </p>
               <a
-                href={WhatsappHref({ message: "Hola, me gustaría saber más sobre los reportes mensuales de campañas." })}
+                href={WhatsappHref({
+                  message:
+                    "Hola, me gustaría saber más sobre los reportes mensuales de campañas.",
+                })}
                 className="inline-flex items-center gap-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-2xl font-black text-base hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 hover:-translate-y-0.5 active:scale-95 shadow-lg shadow-cyan-500/20"
               >
                 Quiero ver un ejemplo
@@ -1004,20 +1270,31 @@ const PerformanceMarketing = () => {
               <div className="relative bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-8">
                 <div className="flex items-center justify-between mb-7">
                   <div>
-                    <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">Informe mensual</p>
-                    <p className="text-white font-black text-lg">Marzo 2025 — Resumen</p>
+                    <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">
+                      Informe mensual
+                    </p>
+                    <p className="text-white font-black text-lg">
+                      Marzo 2025 — Resumen
+                    </p>
                   </div>
                   <div className="bg-cyan-500/20 border border-cyan-500/30 px-3 py-1.5 rounded-full">
-                    <span className="text-cyan-400 text-xs font-black uppercase">Enviado</span>
+                    <span className="text-cyan-400 text-xs font-black uppercase">
+                      Enviado
+                    </span>
                   </div>
                 </div>
                 <ul className="space-y-4">
                   {REPORT_ITEMS.map((item, i) => (
-                    <li key={i} className="flex items-center gap-4 bg-white/5 rounded-xl px-4 py-3">
+                    <li
+                      key={i}
+                      className="flex items-center gap-4 bg-white/5 rounded-xl px-4 py-3"
+                    >
                       <div className="w-9 h-9 bg-cyan-500/10 rounded-lg flex items-center justify-center flex-shrink-0">
                         {item.icon}
                       </div>
-                      <span className="text-slate-200 text-sm font-medium">{item.label}</span>
+                      <span className="text-slate-200 text-sm font-medium">
+                        {item.label}
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -1039,7 +1316,9 @@ const PerformanceMarketing = () => {
           <div className="text-center mb-14">
             <div className="inline-flex items-center gap-2 bg-cyan-100 px-4 py-2 rounded-full mb-5">
               <Award className="w-4 h-4 text-cyan-700" />
-              <span className="text-xs font-black text-cyan-700 uppercase tracking-widest">Por qué elegirnos</span>
+              <span className="text-xs font-black text-cyan-700 uppercase tracking-widest">
+                Por qué elegirnos
+              </span>
             </div>
             <h2 className="text-4xl md:text-5xl font-black text-slate-900 leading-tight">
               Performance marketing sin vueltas
@@ -1047,12 +1326,19 @@ const PerformanceMarketing = () => {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {WHY_US.map((w, i) => (
-              <div key={i} className="group bg-slate-50 hover:bg-gradient-to-br hover:from-cyan-500 hover:to-blue-600 rounded-3xl p-7 border border-slate-100 hover:border-transparent transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/20 hover:-translate-y-1">
+              <div
+                key={i}
+                className="group bg-slate-50 hover:bg-gradient-to-br hover:from-cyan-500 hover:to-blue-600 rounded-3xl p-7 border border-slate-100 hover:border-transparent transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/20 hover:-translate-y-1"
+              >
                 <div className="w-12 h-12 bg-cyan-100 group-hover:bg-white/20 rounded-2xl flex items-center justify-center text-cyan-600 group-hover:text-white mb-5 transition-colors duration-300">
                   {w.icon}
                 </div>
-                <h4 className="font-black text-slate-900 group-hover:text-white mb-2 transition-colors duration-300">{w.title}</h4>
-                <p className="text-slate-500 group-hover:text-white/80 text-sm leading-relaxed transition-colors duration-300">{w.desc}</p>
+                <h4 className="font-black text-slate-900 group-hover:text-white mb-2 transition-colors duration-300">
+                  {w.title}
+                </h4>
+                <p className="text-slate-500 group-hover:text-white/80 text-sm leading-relaxed transition-colors duration-300">
+                  {w.desc}
+                </p>
               </div>
             ))}
           </div>
@@ -1063,8 +1349,12 @@ const PerformanceMarketing = () => {
       <section className="bg-slate-50 py-28">
         <div className="max-w-3xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">Preguntas frecuentes</h2>
-            <p className="text-slate-600 text-lg font-light">Todo lo que querés saber antes de arrancar.</p>
+            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">
+              Preguntas frecuentes
+            </h2>
+            <p className="text-slate-600 text-lg font-light">
+              Todo lo que querés saber antes de arrancar.
+            </p>
           </div>
           <div className="space-y-3">
             {FAQS.map((faq, i) => (
@@ -1088,7 +1378,9 @@ const PerformanceMarketing = () => {
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75" />
                     <span className="relative inline-flex rounded-full h-3 w-3 bg-cyan-500" />
                   </span>
-                  <span className="text-sm font-black text-white uppercase tracking-widest">Consulta sin cargo</span>
+                  <span className="text-sm font-black text-white uppercase tracking-widest">
+                    Consulta sin cargo
+                  </span>
                 </div>
                 <h2 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
                   ¿Listo para hacer que
@@ -1096,11 +1388,15 @@ const PerformanceMarketing = () => {
                   <span className="text-cyan-400">tu pauta trabaje mejor?</span>
                 </h2>
                 <p className="text-slate-300 text-xl mb-10 max-w-2xl mx-auto font-light leading-relaxed">
-                  Hablemos de tu negocio, tus objetivos y cómo podemos ayudarte a crecer con performance marketing real.
+                  Hablemos de tu negocio, tus objetivos y cómo podemos ayudarte
+                  a crecer con performance marketing real.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <a
-                    href={WhatsappHref({ message: "Hola, me gustaría solicitar una consulta sobre Performance Marketing para mi empresa." })}
+                    href={WhatsappHref({
+                      message:
+                        "Hola, me gustaría solicitar una consulta sobre Performance Marketing para mi empresa.",
+                    })}
                     className="group bg-white hover:bg-slate-50 text-slate-900 px-10 py-5 rounded-2xl font-black text-lg shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-4 active:scale-95"
                   >
                     <Phone className="w-6 h-6 group-hover:rotate-12 transition-transform" />
@@ -1110,10 +1406,16 @@ const PerformanceMarketing = () => {
                 </div>
                 <div className="mt-10 pt-8 border-t border-white/10">
                   <div className="flex flex-wrap items-center justify-center gap-8">
-                    {["Sin contratos de largo plazo", "Reporte mensual incluido", "Dashboard en tiempo real"].map((item, i) => (
+                    {[
+                      "Sin contratos de largo plazo",
+                      "Reporte mensual incluido",
+                      "Dashboard en tiempo real",
+                    ].map((item, i) => (
                       <div key={i} className="flex items-center gap-2">
                         <CheckCircle2 className="w-4 h-4 text-cyan-500" />
-                        <span className="font-semibold text-slate-300 text-sm">{item}</span>
+                        <span className="font-semibold text-slate-300 text-sm">
+                          {item}
+                        </span>
                       </div>
                     ))}
                   </div>
