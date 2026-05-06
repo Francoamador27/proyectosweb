@@ -14,9 +14,10 @@ const Testimonials = lazy(() => import("./Testimonials"));
 const Beneficios = lazy(() => import("../components/Beneficios"));
 const Comparacion = lazy(() => import("../components/Comparacion"));
 const Cta = lazy(() => import("../components/Cta"));
+const PortafolioCarrusel = lazy(() => import("../components/PortafolioCarrusel"));
 
 const Inicio = () => {
-    const { auth, company } = useCont();
+    const { company } = useCont();
     return (
         <>
             <div className="  ">
@@ -30,7 +31,11 @@ const Inicio = () => {
                         <ComoComprar />
                     </Suspense>
                 </LazyRender>
-                <LazyRender minHeight={520}>
+
+                <LazyRender minHeight={620}>
+                    <Suspense fallback={<div style={{ minHeight: 620, background: '#050a14' }} />}>
+                        <PortafolioCarrusel />
+                    </Suspense>
                 </LazyRender>
 
                 <LazyRender minHeight={520}>
