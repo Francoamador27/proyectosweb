@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone, User, ShoppingCart, ChevronDown, Briefcase } from "lucide-react";
+import { Menu, X, Phone, User, ShoppingCart, ChevronDown, Briefcase, LogIn } from "lucide-react";
 
 import logo from '../../assets/img/logo/logo_azul.png';
 import logo_azul from '../../assets/img/logo/logo_azul.png';
@@ -87,7 +87,7 @@ export default function Header() {
                   <NavLink
                     to={item.href}
                     className={({ isActive }) => `
-                      relative px-5 py-2 text-[14px] font-bold tracking-tight uppercase transition-all duration-300 flex items-center gap-1.5
+                      relative px-3 py-2 text-[14px] font-bold tracking-tight uppercase transition-all duration-300 flex items-center gap-1.5
                       ${useDarkStyle
                         ? (isActive ? 'text-[#0891b2]' : 'text-slate-700 hover:text-[#0891b2]')
                         : (isActive ? 'text-white' : 'text-white/90 hover:text-white')
@@ -106,6 +106,21 @@ export default function Header() {
                 </li>
               ))}
             </ul>
+
+            {/* PORTAL CLIENTES */}
+            <a
+              href="https://dashboard.proyectoswebsite.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`hidden lg:flex items-center gap-2 px-4 py-2 rounded-xl text-[13px] font-black uppercase tracking-wide transition-all duration-300 border-2 ${
+                useDarkStyle
+                  ? 'border-[#0891b2] text-[#0891b2] hover:bg-[#0891b2] hover:text-white'
+                  : 'border-white/70 text-white hover:bg-white hover:text-[#0891b2]'
+              }`}
+            >
+              <LogIn size={15} />
+              Portal Clientes
+            </a>
 
             {/* MOBILE MENU BUTTON */}
             <button
@@ -172,6 +187,19 @@ export default function Header() {
                   <Briefcase size={18} />
                   TRABAJA CON NOSOTROS
                 </Link>
+              </li>
+
+              <li className="pt-2">
+                <a
+                  href="https://dashboard.proyectoswebsite.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-center gap-3 py-4 border-2 border-[#0891b2] text-[#0891b2] hover:bg-[#0891b2] hover:text-white rounded-2xl font-black text-base active:scale-95 transition-all"
+                >
+                  <LogIn size={18} />
+                  PORTAL CLIENTES
+                </a>
               </li>
             </ul>
           </div>
