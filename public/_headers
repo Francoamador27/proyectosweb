@@ -3,3 +3,7 @@
 
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
+
+# El panel no debe aparecer en Google
+https://admin.proyectoswebsite.com/*
+  X-Robots-Tag: noindex, nofollow

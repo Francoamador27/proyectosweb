@@ -1,5 +1,6 @@
-import { Suspense, lazy } from "react";
-import { createBrowserRouter } from "react-router-dom";
+import { Suspense, lazy, useEffect } from "react";
+import { createBrowserRouter, Navigate, Outlet, useLocation } from "react-router-dom";
+import { IS_ADMIN_APP, publicUrl } from "./config/site";
 import Layout from "./layout/Layout";
 import AuthLayout from "./layout/AuthLayout";
 import AdminLayout from "./layout/AdminLayout";
@@ -65,8 +66,46 @@ const suspense = (node) => (
   </Suspense>
 );
 
+// Layout mínimo del subdominio admin: sin header/footer del sitio público
+function AdminAppLayout() {
+  return <Outlet />;
+}
+
+// Redirige una ruta pública al sitio público (Next.js), conservando path y query
+function RedirectToPublic() {
+  const { pathname, search, hash } = useLocation();
+  useEffect(() => {
+    window.location.replace(publicUrl(`${pathname}${search}${hash}`));
+  }, [pathname, search, hash]);
+  return null;
+}
+
+// Rutas que viven en esta app en cualquier dominio
+const appRoutes = [
+  { path: "/finalizar-compra", element: suspense(<CheckOut />) },
+  { path: "auth/login", element: suspense(<Login />) },
+  { path: "auth/reset-password", element: suspense(<ResetPassword />) },
+  { path: "auth/register", element: suspense(<Register />) },
+  { path: "/pagos/:estado", element: suspense(<PagoResultado />) },
+];
+
+// En admin.* solo el panel: "/" va al dashboard y lo público al sitio Next
+const rootRoute = IS_ADMIN_APP
+  ? {
+      path: "/",
+      element: <AdminAppLayout />,
+      errorElement: <ErrorBoundary />,
+      children: [
+        { index: true, element: <Navigate to="/admin-dash" replace /> },
+        ...appRoutes,
+        { path: "*", element: <RedirectToPublic /> },
+      ],
+    }
+  : null;
+
 const router = createBrowserRouter([
-  {
+  ...(rootRoute ? [rootRoute] : []),
+  ...(IS_ADMIN_APP ? [] : [{
     path: "/",
     element: <Layout />,
     errorElement: <ErrorBoundary />,
@@ -86,14 +125,9 @@ const router = createBrowserRouter([
       { path: "/portafolio/:id", element: suspense(<PortafolioDetail />) },
       { path: "/performance-marketing", element: suspense(<PerformanceMarketing />) },
       { path: "/galeria", element: suspense(<Ejemplos />) },
-      { path: "/finalizar-compra", element: suspense(<CheckOut />) },
-      { path: "auth/login", element: suspense(<Login />) },
-      { path: "auth/reset-password", element: suspense(<ResetPassword />) },
-      { path: "auth/register", element: suspense(<Register />) },
-      { path: "/pagos/:estado", element: suspense(<PagoResultado />) },
-
+      ...appRoutes,
     ],
-  },
+  }]),
   {
     path: "/mi-cuenta",
     element: <AuthLayout />,
@@ -148,10 +182,11 @@ const router = createBrowserRouter([
 
     ],
   },
-  {
+  // En admin.* las rutas desconocidas ya redirigen al sitio público
+  ...(IS_ADMIN_APP ? [] : [{
     path: "*",
     element: suspense(<NotFound />),
-  },
+  }]),
 ]);
 
 export default router;
