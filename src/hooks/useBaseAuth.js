@@ -5,17 +5,23 @@ import clienteAxios from "../config/axios";
 const useAuthBase = () => {
   const token = localStorage.getItem("AUTH_TOKEN");
 
-  const { data: user, error, mutate } = useSWR('/api/user', () =>
-    clienteAxios('/api/user', {
+  // El token se lee en cada request (no al montar): este hook vive en el
+  // Provider y comparte la clave '/api/user' con useAuth. Si usaba el token
+  // del primer render, tras el login revalidaba con "Bearer null" → 401 →
+  // el interceptor borraba el token recién guardado y no se redirigía.
+  const { data: user, error, mutate } = useSWR('/api/user', () => {
+    const currentToken = localStorage.getItem("AUTH_TOKEN");
+    if (!currentToken) return Promise.reject(new Error('No token'));
+    return clienteAxios('/api/user', {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${currentToken}`,
       },
     })
     .then(res => res.data)
     .catch(error => {
       throw new Error(error?.response?.data?.errors || 'Error desconocido');
-    })
-  );
+    });
+  });
 
   const login = async (datos, setErrores, setLoading) => {
     try {

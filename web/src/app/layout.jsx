@@ -1,13 +1,7 @@
-import "@fontsource/inter/400.css";
-import "@fontsource/inter/600.css";
-import "@fontsource/inter/700.css";
-import "@fontsource/poppins/400.css";
-import "@fontsource/poppins/700.css";
-import "@fontsource/nunito-sans/400.css";
-import "@fontsource/comfortaa/700.css";
 import "./globals.css";
 
 import Script from "next/script";
+import { Poppins, Nunito_Sans } from "next/font/google";
 import { Provider } from "@/context/Provider";
 import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
@@ -17,6 +11,11 @@ import { getSettings, SITE_URL } from "@/lib/api";
 import { buildSiteContext } from "@/lib/settings";
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+
+// Fuentes autoalojadas por Next (se descargan en el build, sin bloquear el render
+// ni conectar con Google Fonts). Se exponen como variables CSS para globals.css.
+const poppins = Poppins({ subsets: ["latin"], weight: ["500", "600", "700"], display: "swap", variable: "--font-poppins" });
+const nunito = Nunito_Sans({ subsets: ["latin"], weight: ["400", "600", "700"], display: "swap", variable: "--font-nunito" });
 
 export async function generateMetadata() {
   const { company } = buildSiteContext(await getSettings());
@@ -87,15 +86,10 @@ export default async function RootLayout({ children }) {
   };
 
   return (
-    <html lang="es">
+    <html lang="es" className={`${poppins.variable} ${nunito.variable}`}>
       <head>
-        <link rel="preconnect" href={process.env.NEXT_PUBLIC_API_URL} crossOrigin="" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap"
-        />
+        {/* Las imágenes del hero vienen de la API: conexión anticipada */}
+        <link rel="preconnect" href={process.env.NEXT_PUBLIC_API_URL} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

@@ -13,6 +13,8 @@ const nextConfig = {
   images: { unoptimized: true },
   trailingSlash: false,
   reactStrictMode: true,
+  // CSS incrustado en el HTML: elimina la petición de CSS que bloquea el render (LCP/FCP)
+  experimental: { inlineCss: true },
 };
 
 export default nextConfig;

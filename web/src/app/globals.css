@@ -81,8 +81,8 @@
   --color-sky: #0e7490;        /* azul de marca (logo) */
   --color-sky-soft: #e2f1f5;
 
-  --font-sans: "Nunito Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-nunito), "Nunito Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-poppins), "Poppins", ui-sans-serif, system-ui, sans-serif;
 
   --shadow-soft: 0 1px 2px rgb(29 36 32 / 0.04), 0 8px 24px -8px rgb(29 36 32 / 0.10);
   --shadow-lift: 0 2px 4px rgb(29 36 32 / 0.05), 0 18px 40px -12px rgb(29 36 32 / 0.18);

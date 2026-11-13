@@ -1,12 +1,19 @@
 "use client";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { Mail, Phone, MapPin, Clock, MessageCircle } from "lucide-react";
-import { FloatingWhatsApp } from "react-floating-whatsapp";
+import dynamic from "next/dynamic";
+
+// Botón flotante en un chunk aparte: incluye una imagen de fondo de ~86 KB
+// embebida que no tiene que bloquear la carga inicial.
+const FloatingWhatsApp = dynamic(
+  () => import("react-floating-whatsapp").then((m) => m.FloatingWhatsApp),
+  { ssr: false }
+);
 import useCont from "../../hooks/useCont";
 import { Link } from "@/lib/router";
 import WhatsappHref from "../../utils/WhatsappUrl";
 
-const logo = "/img/logo/logo_azul.png";
+const logo = "/img/logo/logo.webp";
 
 const EXPLORAR = [
   { label: "Inicio", to: "/" },
@@ -58,7 +65,7 @@ export default function Footer() {
         <div className="container-x grid gap-10 pb-12 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.4fr]">
           <div>
             <Link to="/" className="inline-flex items-center gap-2.5">
-              <img src={logo} alt="" className="h-10 w-auto" width="40" height="40" />
+              <img src={logo} alt="" className="h-10 w-auto" width="48" height="40" />
               <span className="font-display text-xl font-bold text-ink">
                 Grupo<span className="text-sky">Bits</span>
               </span>

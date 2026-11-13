@@ -5,6 +5,7 @@
  * Estética clara: texto a la izquierda, imagen redondeada a la derecha.
  * Solo el primer slide usa <h1> (un único h1 por página para SEO).
  */
+import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import useSWR from "swr";
@@ -53,7 +54,7 @@ function SlideMedia({ slide, priority }) {
   return <div className="absolute inset-0 bg-sand" />;
 }
 
-function Slide({ slide, index, contact }) {
+function Slide({ slide, index, contact, cargarMedia }) {
   const Title = index === 0 ? "h1" : "p";
   const whatsapp = WhatsappHref({
     message: `Hola, me interesa saber más sobre "${slide.title}". ¿Me pasan un presupuesto?`,
@@ -94,7 +95,7 @@ function Slide({ slide, index, contact }) {
       <div className="relative">
         <div className="absolute -right-4 -top-4 h-full w-full rounded-[2rem] bg-brand-soft" aria-hidden="true" />
         <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] bg-sand shadow-lift">
-          <SlideMedia slide={slide} priority={index === 0} />
+          {cargarMedia && <SlideMedia slide={slide} priority={index === 0} />}
         </div>
       </div>
     </div>
@@ -110,6 +111,11 @@ export default function HeroFeatures() {
   );
   const loading = swrIsLoading && data === undefined;
   const slides = Array.isArray(data?.data) ? data.data : [];
+
+  // Con efecto fade todos los slides están superpuestos, así que loading="lazy"
+  // no evita la descarga: solo montamos la imagen del slide actual y el siguiente.
+  const [visto, setVisto] = useState(0);
+  const cargarMedia = (i) => i <= visto + 1 || (visto + 1 >= slides.length && i === 0);
 
   return (
     <section className="relative overflow-hidden bg-cream">
@@ -142,11 +148,12 @@ export default function HeroFeatures() {
           autoplay={{ delay: 6000, disableOnInteraction: true, pauseOnMouseEnter: true }}
           pagination={{ clickable: true }}
           loop={slides.length > 1}
+          onSlideChange={(swiper) => setVisto((v) => Math.max(v, swiper.realIndex))}
           className="hero-swiper"
         >
           {slides.map((slide, i) => (
             <SwiperSlide key={slide.id} className="!bg-cream">
-              <Slide slide={slide} index={i} contact={contact} />
+              <Slide slide={slide} index={i} contact={contact} cargarMedia={cargarMedia(i)} />
             </SwiperSlide>
           ))}
         </Swiper>

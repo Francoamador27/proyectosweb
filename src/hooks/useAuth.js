@@ -49,8 +49,11 @@ const UseAuth = ({ middleware, url }) => {
       clienteAxios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
       
       setErrores?.(null);
-      hasRedirectedRef.current = false; // ✅ Reset al hacer login
-      await mutate();
+      hasRedirectedRef.current = true; // la redirección la hacemos acá
+      await mutate(data.user ?? undefined, { revalidate: true });
+
+      // Redirigir según el usuario devuelto por la API (no depender del efecto)
+      navigate(data.user?.admin ? '/admin-dash' : (url || '/mi-cuenta'), { replace: true });
     } catch (error) {
       setErrores?.(error.response?.data?.errors || 'Error al iniciar sesión');
     } finally {

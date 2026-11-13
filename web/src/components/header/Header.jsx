@@ -4,7 +4,7 @@ import { NavLink, Link, useLocation } from "@/lib/router";
 import { Menu, X, LogIn, MessageCircle } from "lucide-react";
 import WhatsappHref from "../../utils/WhatsappUrl";
 
-const logo = "/img/logo/logo_azul.png";
+const logo = "/img/logo/logo.webp";
 const PORTAL_URL = process.env.NEXT_PUBLIC_PORTAL_URL || "https://dashboard.proyectoswebsite.com/";
 
 const NAV = [
@@ -46,7 +46,7 @@ export default function Header() {
     >
       <nav className="container-x flex h-16 items-center justify-between gap-4 md:h-20" aria-label="Principal">
         <Link to="/" className="flex items-center gap-2.5" aria-label="Grupo Bits, ir al inicio">
-          <img src={logo} alt="" className="h-9 w-auto md:h-10" width="40" height="40" />
+          <img src={logo} alt="" className="h-9 w-auto md:h-10" width="48" height="40" />
           <span className="leading-none">
             <span className="block font-display text-lg font-bold text-ink">
               Grupo<span className="text-sky">Bits</span>
