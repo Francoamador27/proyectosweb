@@ -5,6 +5,7 @@ import { Search, MessageCircle } from "lucide-react";
 import clienteAxios from "../config/axios";
 import PortafolioCard from "./PortafolioCard";
 import WhatsappHref from "../utils/WhatsappUrl";
+import { ordenarRecientes } from "../utils/portafolioImage";
 
 export default function Portafolio() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -12,7 +13,7 @@ export default function Portafolio() {
     revalidateOnFocus: false,
   });
   const loading = swrIsLoading && data === undefined;
-  const portafolios = useMemo(() => data?.data || [], [data]);
+  const portafolios = useMemo(() => ordenarRecientes(data?.data || []), [data]);
   const whatsapp = WhatsappHref({ message: "Hola! Vi su portafolio y quiero algo parecido para mi negocio." });
 
   const filtrados = useMemo(() => {

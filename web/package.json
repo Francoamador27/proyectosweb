@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "npx serve@14 out",
     "lint": "next lint",
-    "postbuild": "node scripts/flatten-rsc.mjs out"
+    "postbuild": "node scripts/flatten-rsc.mjs out",
+    "prebuild": "node scripts/clear-fetch-cache.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

@@ -9,4 +9,12 @@ export function portafolioImage(path) {
   return `${api}/${clean}`;
 }
 
-export const stripHtml = (str = "") => str.replace(/<[^>]*>/g, " ").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
+// Del más reciente al más antiguo (created_at; si falta, por id)
+export const ordenarRecientes = (lista = []) =>
+  [...lista].sort((a, b) => {
+    const fa = Date.parse(a.created_at) || 0;
+    const fb = Date.parse(b.created_at) || 0;
+    return fb - fa || (b.id ?? 0) - (a.id ?? 0);
+  });
+
+export const stripHtml =(str = "") => str.replace(/<[^>]*>/g, " ").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
