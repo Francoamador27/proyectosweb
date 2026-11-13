@@ -5,7 +5,6 @@ import { ArrowRight } from "lucide-react";
 import { Link } from "@/lib/router";
 import clienteAxios from "../config/axios";
 import PortafolioCard from "./PortafolioCard";
-import { ordenarRecientes } from "../utils/portafolioImage";
 
 export default function PortafolioCarrusel() {
   const { data, isLoading: swrIsLoading } = useSWR(
@@ -14,7 +13,7 @@ export default function PortafolioCarrusel() {
     { revalidateOnFocus: false }
   );
   const isLoading = swrIsLoading && data === undefined;
-  const proyectos = ordenarRecientes(Array.isArray(data?.data) ? data.data : Array.isArray(data) ? data : []).slice(0, 3);
+  const proyectos = (Array.isArray(data?.data) ? data.data : Array.isArray(data) ? data : []).slice(0, 3);
 
   if (!isLoading && proyectos.length === 0) return null;
 
