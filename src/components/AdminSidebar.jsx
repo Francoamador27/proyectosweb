@@ -30,6 +30,7 @@ import {
 } from 'lucide-react';
 import UseAuth from '../hooks/useAuth';
 import useCont from '../hooks/useCont';
+import { PUBLIC_SITE_URL } from '../config/site';
 
 const drawerWidth = 240;
 const collapsedWidth = 72;
@@ -98,7 +99,7 @@ const AdminSidebar = () => {
                     {open ? (
                         <Box
                             component="a"
-                            href="/"
+                            href={PUBLIC_SITE_URL}
                             target="_blank"
                             rel="noopener noreferrer"
                             sx={{
@@ -135,7 +136,7 @@ const AdminSidebar = () => {
                         <Tooltip title="Ver sitio web" placement="right">
                             <IconButton
                                 component="a"
-                                href="/"
+                                href={PUBLIC_SITE_URL}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 size="small"
