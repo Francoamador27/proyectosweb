@@ -28,6 +28,8 @@ export async function generateMetadata() {
     applicationName: name,
     authors: [{ name }],
     robots: { index: true, follow: true },
+    // Google Search Console
+    verification: { google: "DZiGXfIytFBlEfi2j4GVmuvyfneJwq41qh4VdLR-wnk" },
     icons: {
       icon: [{ url: "/favicon.ico" }, { url: "/favicon.svg", type: "image/svg+xml" }],
       apple: "/apple-touch-icon.png",
